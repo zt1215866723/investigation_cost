@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xwkj.cost.mapper.ContractInfoMapperManual">
+    <resultMap id="BaseResultMap" type="com.xwkj.cost.model.ContractInfo">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="contract_name" jdbcType="VARCHAR" property="contractName" />
+        <result column="contract_num" jdbcType="VARCHAR" property="contractNum" />
+        <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+        <result column="item_manager" jdbcType="VARCHAR" property="itemManager" />
+        <result column="customer" jdbcType="VARCHAR" property="customer" />
+        <result column="company" jdbcType="VARCHAR" property="company" />
+        <result column="customer_tel" jdbcType="VARCHAR" property="customerTel" />
+        <result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+        <result column="last_modified_time" jdbcType="TIMESTAMP" property="lastModifiedTime" />
+        <result column="creator" jdbcType="BIGINT" property="creator" />
+        <result column="last_modifier" jdbcType="BIGINT" property="lastModifier" />
+        <result column="contract_cost" jdbcType="DECIMAL" property="contractCost" />
+        <result column="contract_money" jdbcType="DECIMAL" property="contractMoney" />
+        <result column="special_instructions" jdbcType="VARCHAR" property="specialInstructions" />
+        <result column="premium" jdbcType="VARCHAR" property="premium" />
+        <result column="conclusion" jdbcType="VARCHAR" property="conclusion" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="signing_status" jdbcType="INTEGER" property="signingStatus" />
+        <result column="is_archive" jdbcType="INTEGER" property="isArchive" />
+        <result column="project_id" jdbcType="BIGINT" property="projectId" />
+    </resultMap>
+
+    <resultMap id="ResultMap" type="com.xwkj.cost.vo.ContractInfoAndInvoiceInfoVo">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="contract_name" jdbcType="VARCHAR" property="contractName" />
+        <result column="contract_num" jdbcType="VARCHAR" property="contractNum" />
+        <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+        <result column="item_manager" jdbcType="VARCHAR" property="itemManager" />
+        <result column="customer" jdbcType="VARCHAR" property="customer" />
+        <result column="company" jdbcType="VARCHAR" property="company" />
+        <result column="customer_tel" jdbcType="VARCHAR" property="customerTel" />
+        <result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+        <result column="last_modified_time" jdbcType="TIMESTAMP" property="lastModifiedTime" />
+        <result column="creator" jdbcType="BIGINT" property="creator" />
+        <result column="last_modifier" jdbcType="BIGINT" property="lastModifier" />
+        <result column="contract_cost" jdbcType="DECIMAL" property="contractCost" />
+        <result column="contract_money" jdbcType="DECIMAL" property="contractMoney" />
+        <result column="special_instructions" jdbcType="VARCHAR" property="specialInstructions" />
+        <result column="premium" jdbcType="VARCHAR" property="premium" />
+        <result column="conclusion" jdbcType="VARCHAR" property="conclusion" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="signing_time" jdbcType="VARCHAR" property="signingTime" />
+        <result column="type" jdbcType="INTEGER" property="type" />
+        <result column="typeName" jdbcType="VARCHAR" property="typeName" />
+        <result column="signing_status" jdbcType="INTEGER" property="signingStatus" />
+        <result column="is_archive" jdbcType="INTEGER" property="isArchive" />
+        <result column="managerName" jdbcType="VARCHAR" property="managerName" />
+        <result column="project_id" jdbcType="BIGINT" property="projectId" />
+        <result column="projectName" jdbcType="VARCHAR" property="projectName" />
+    </resultMap>
+
+    <resultMap id="BaseResultMap2" type="com.xwkj.cost.vo.ContractSummaryVo">
+        <id column="contractId" jdbcType="VARCHAR" property="contractId" />
+        <result column="contractName" jdbcType="VARCHAR" property="contractName" />
+        <result column="contractNum" jdbcType="VARCHAR" property="contractNum" />
+        <result column="company" jdbcType="VARCHAR" property="company" />
+        <result column="itemName" jdbcType="VARCHAR" property="itemName" />
+        <result column="managerName" jdbcType="VARCHAR" property="managerName" />
+        <result column="creatTime" jdbcType="VARCHAR" property="creatTime" />
+        <result column="contractMoney" jdbcType="DECIMAL" property="contractMoney" />
+        <result column="conclusion" jdbcType="VARCHAR" property="conclusion" />
+        <collection property="applyList" ofType="com.xwkj.cost.vo.ApplyInvoiceVo">
+            <id column="applyId" jdbcType="VARCHAR" property="id" />
+            <result column="moneyApply" jdbcType="DECIMAL" property="money" />
+            <result column="name" jdbcType="VARCHAR" property="name" />
+        </collection>
+        <collection property="moneyBackList" ofType="com.xwkj.cost.model.MoneyBackInfo">
+            <id column="moneyBackId" jdbcType="VARCHAR" property="id" />
+            <result column="moneyBack" jdbcType="DECIMAL" property="money" />
+            <result column="certificateNumber" jdbcType="VARCHAR" property="certificateNumber" />
+        </collection>
+    </resultMap>
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.xwkj.cost.model.ContractInfo" >
+        insert into tbl_gb_contract_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="contractName != null">
+                contract_name,
+            </if>
+            <if test="contractNum != null">
+                contract_num,
+            </if>
+            <if test="itemName != null">
+                item_name,
+            </if>
+            <if test="itemManager != null">
+                item_manager,
+            </if>
+            <if test="customer != null">
+                customer,
+            </if>
+            <if test="company != null">
+                company,
+            </if>
+            <if test="customerTel != null">
+                customer_tel,
+            </if>
+            <if test="creatTime != null">
+                creat_time,
+            </if>
+            <if test="lastModifiedTime != null">
+                last_modified_time,
+            </if>
+            <if test="creator != null">
+                creator,
+            </if>
+            <if test="lastModifier != null">
+                last_modifier,
+            </if>
+            <if test="contractCost != null">
+                contract_cost,
+            </if>
+            <if test="contractMoney != null">
+                contract_money,
+            </if>
+            <if test="specialInstructions != null">
+                special_instructions,
+            </if>
+            <if test="premium != null">
+                premium,
+            </if>
+            <if test="conclusion != null">
+                conclusion,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="signingTime != null">
+                signing_time,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="signingStatus != null">
+                signing_status,
+            </if>
+            <if test="isArchive != null">
+                is_archive,
+            </if>
+            <if test="projectId != null">
+                project_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="contractName != null">
+                #{contractName,jdbcType=VARCHAR},
+            </if>
+            <if test="contractNum != null">
+                #{contractNum,jdbcType=VARCHAR},
+            </if>
+            <if test="itemName != null">
+                #{itemName,jdbcType=VARCHAR},
+            </if>
+            <if test="itemManager != null">
+                #{itemManager,jdbcType=VARCHAR},
+            </if>
+            <if test="customer != null">
+                #{customer,jdbcType=VARCHAR},
+            </if>
+            <if test="company != null">
+                #{company,jdbcType=VARCHAR},
+            </if>
+            <if test="customerTel != null">
+                #{customerTel,jdbcType=VARCHAR},
+            </if>
+            <if test="creatTime != null">
+                #{creatTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastModifiedTime != null">
+                #{lastModifiedTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creator != null">
+                #{creator,jdbcType=BIGINT},
+            </if>
+            <if test="lastModifier != null">
+                #{lastModifier,jdbcType=BIGINT},
+            </if>
+            <if test="contractCost != null">
+                #{contractCost,jdbcType=DECIMAL},
+            </if>
+            <if test="contractMoney != null">
+                #{contractMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="specialInstructions != null">
+                #{specialInstructions,jdbcType=VARCHAR},
+            </if>
+            <if test="premium != null">
+                #{premium,jdbcType=VARCHAR},
+            </if>
+            <if test="conclusion != null">
+                #{conclusion,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="signingTime != null">
+                #{signingTime,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="signingStatus != null">
+                #{signingStatus,jdbcType=INTEGER},
+            </if>
+            <if test="isArchive != null">
+                #{isArchive,jdbcType=INTEGER},
+            </if>
+            <if test="projectId != null">
+                #{projectId,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <select id="selectSelective" resultMap="ResultMap">
+        SELECT
+        t.*,
+        c.`name` AS typeName,
+        m.`name` AS managerName,
+        p.`name` AS projectName
+        FROM
+        tbl_gb_contract_info t
+        LEFT JOIN tbl_gb_contract_type c ON t.type = c.id
+        LEFT JOIN tbl_gb_manager_info m ON m.id = t.item_manager
+        LEFT JOIN tbl_gb_project_type p ON t.project_id = p.id
+        <where>
+            <if test="contractInfo.contractNum != null and contractInfo.contractNum != ''">
+                AND t.contract_num LIKE CONCAT('%',#{contractInfo.contractNum},'%')
+            </if>
+            <if test="contractInfo.itemName != null and contractInfo.itemName != ''">
+                AND t.item_name LIKE CONCAT('%',#{contractInfo.itemName},'%')
+            </if>
+            <if test="contractInfo.startTime != null">
+                AND t.creat_time <![CDATA[ >= ]]> #{contractInfo.startTime}
+            </if>
+            <if test="contractInfo.endTime != null">
+                AND t.creat_time <![CDATA[ <= ]]> #{contractInfo.endTime}
+            </if>
+            <if test="contractInfo.status != null">
+                AND t.status = #{contractInfo.status}
+            </if>
+            <if test="contractInfo.status == null">
+                AND t.status != 0
+            </if>
+            <if test="contractInfo.itemManager != null and contractInfo.itemManager != ''">
+                AND t.item_manager = #{contractInfo.itemManager}
+            </if>
+            <if test="contractInfo.signingTime != null and contractInfo.signingTime != ''">
+                AND t.signing_time = #{contractInfo.signingTime}
+            </if>
+            <if test="contractInfo.contractType != null">
+                AND t.type = #{contractInfo.contractType}
+            </if>
+            <if test="contractInfo.isArchive != null">
+                AND t.is_archive = #{contractInfo.isArchive}
+            </if>
+            <if test="contractInfo.signingStatus != null">
+                AND t.signing_status = #{contractInfo.signingStatus}
+            </if>
+            <if test="contractInfo.projectId != null">
+                AND t.project_id = #{contractInfo.projectId}
+            </if>
+            order by t.creat_time desc
+        </where>
+    </select>
+    <select id="selectBycontrackIds" resultMap="ResultMap">
+        SELECT
+        c.*,
+        m.NAME AS managerName,
+        t.`name` AS typeName
+        FROM
+        tbl_gb_contract_info c
+        LEFT JOIN tbl_gb_contract_type t ON c.type = t.id
+        LEFT JOIN tbl_gb_manager_info m ON c.item_manager = m.id
+        WHERE c.id IN
+        <foreach collection="array" index="index" item="contractId" open="(" separator="," close=")">
+            #{contractId}
+        </foreach>
+    </select>
+    <select id="selectContractSummary" resultMap="BaseResultMap2">
+        SELECT DISTINCT
+        c.id AS contractId,
+        c.contract_name AS contractName,
+        c.contract_num AS contractNum,
+        c.company AS company,
+        c.item_name AS itemName,
+        i.`name` as managerName,
+        c.creat_time AS createtime,
+        c.contract_money AS contractMoney,
+        c.conclusion AS conclusion,
+        a.id as applyId,
+        a.`name` AS NAME,
+        a.money AS moneyApply,
+        m.id as moneyBackId,
+        m.certificate_number AS certificateNumber,
+        m.money AS moneyBack
+        FROM
+        tbl_gb_contract_info c
+        LEFT JOIN tbl_gb_apply_invoice a ON c.id = a.contract_id
+        AND a.`status` = 1
+        LEFT JOIN tbl_gb_money_back_info m ON c.id = m.contract_id
+        AND m.`status` = 1
+        LEFT JOIN tbl_gb_manager_info i ON c.item_manager = i.id
+        WHERE
+        c.id IN
+        <foreach collection="array" index="index" item="contractId" open="(" separator="," close=")">
+            #{contractId}
+        </foreach>
+        ORDER BY
+        c.creat_time,
+        a.createtime,
+        m.create_time
+    </select>
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xwkj.cost.mapper.PaymentInfoMapperManual" >
+  <resultMap id="BaseResultMap" type="com.xwkj.cost.model.PaymentInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="contract_id" property="contractId" jdbcType="BIGINT" />
+    <result column="batch_num" property="batchNum" jdbcType="VARCHAR" />
+    <result column="proportion" property="proportion" jdbcType="REAL" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, contract_id, batch_num, proportion, note, status
+  </sql>
+  <select id="selectPaymentList" resultMap="BaseResultMap">
+    SELECT * FROM  tbl_gb_payment_info WHERE status = 0 AND contract_id = #{contractId}
+  </select>
+
+</mapper>

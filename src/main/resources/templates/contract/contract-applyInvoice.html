@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.2</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" th:src="@{js/jquery.min.js}"></script>
+</head>
+<body>
+<div class="x-nav">
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
+    </a>
+</div>
+<div class="layui-fluid">
+
+    <input class="layui-input" type="hidden" name="name" id="contractId">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <div class="layui-card-header">
+                        <shiro:hasPermission name="contractcost:contract:details:apply:add">
+                            <button class="layui-btn" id="addApplyInfo"><i class="layui-icon"></i>添加</button>
+                        </shiro:hasPermission>
+                    </div>
+                </div>
+                <table class="layui-table layui-form" id="detailsTable" lay-filter="detailsTable">
+                </table>
+                <script type="text/html" id="barDemo">
+                    <shiro:hasPermission name="contractcost:contract:details:apply:download">
+                        <a class="layui-btn layui-btn-xs" lay-event="download">下载附件</a>
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="contractcost:contract:apply:apply:edit">
+                        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="contractcost:contract:apply:apply:del">
+                        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                    </shiro:hasPermission>
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script th:src="@{lib/layui/layui.js}" charset="utf-8"></script>
+
+<script>layui.use(['form', 'layer', 'jquery', 'table'],
+    function() {
+        var $ = layui.jquery,
+            layer = layui.layer,
+            table = layui.table,
+            form = layui.form;
+
+        var detailsTable = table.render({
+            elem: '#detailsTable'
+            , id: 'detailsTable'
+            , url: 'getApplyInvoiceInfoList' //数据接口
+            , method: 'post'
+            , page: true //开启分页
+            , where: {
+                id: $('#contractId').val()
+            }
+            , limit: 10
+            , text: {
+                none: "暂无数据！"
+            }
+            , cols: [
+                [
+                    {field: 'name', align: 'center', title: '凭证号'}
+                    , {
+                    field: 'createtime', align: 'center', title: '开票日期', templet: function (d) {
+                        return layui.util.toDateString(d.createtime, "yyyy-MM")
+                    }
+                }
+                    // ,{field: 'latetime',align: 'center', title: '发票开具最迟时间', templet: function (d) {
+                    //         return layui.util.toDateString(d.latetime, "yyyy-MM-dd")
+                    //     }}
+                    , {
+                    field: 'type', align: 'center', title: '类型', templet: function (d) {
+                        var stat;
+                        if (d.type == "1") {
+                            stat = "专票"
+                        } else if (d.type == "2") {
+                            stat = "普票"
+                        }
+                        return stat;
+                    }
+                }
+                    , {field: 'money', align: 'center', title: '金额'}
+                    , {field: 'note', align: 'center', title: '备注'}
+                    , {fixed: 'right', title: '操作', align: 'center', width: '280', toolbar: '#barDemo'}
+                ]
+            ]
+            , response: {
+                statusCode: 1 //重新规定成功的状态码为 200，table 组件默认为 0
+            }
+            , parseData: function (res) { //将原始数据解析成 table 组件所规定的数据
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.data.total, //解析数据长度
+                    "data": res.data.list //解析数据列表
+                }
+            }
+        });
+
+        $('#addApplyInfo').click(function() {
+            layer.open({
+                type:2,
+                title:"添加开票信息",
+                area: ['60%', '100%'],
+                btn: ['确定','取消'], //按钮
+                content: 'view?url=contract/applyInvoice',
+                success:function(layero,index){
+                    var body = layer.getChildFrame('body');
+                    var iframeWin = window[layero.find('iframe')[0]['name']];
+                    // iframeWin.getData(data)
+                    body.find("#contractId").val($('#contractId').val());
+                },
+                yes: function (index, layero) {
+                    var submitID = 'add',
+                        submit = layero.find('iframe').contents().find('#' + submitID);
+                    submit.trigger('click');
+                }
+            });
+        });
+
+        table.on('tool(detailsTable)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+            if (obj.event == 'del') {
+                layer.confirm('确认要删除吗?', function (index) {
+                    $.ajax({
+                        url: "deleteApplyInvoiceInfo/" + data.id,
+                        dataType: "json",
+                        type: "DELETE",
+                        success: function (data) {
+                            if (data.success) {
+                                layer.msg(data.msg, {icon: 6, time: 1500}, function () {
+                                    table.reload('detailsTable');
+                                    relodSubContractInfo();
+                                });
+                            } else {
+                                layer.msg(data.msg, {icon: 5, time: 1000});
+                            }
+                        },
+                        error: function (response) {
+                            layer.msg('系统错误！', {
+                                icon: 5
+                            });
+                        }
+                    });
+                });
+            } else if (obj.event == 'edit') { //编辑
+                layer.open({
+                    type: 2,
+                    title: "修改开票信息",
+                    closeBtn: 1,
+                    content: 'view?url=contract/applyInvoice-edit.html',
+                    area: ['60%', '100%'],
+                    btn: ['确定', '取消'],
+                    shadeClose: true,
+                    yes: function (index, layero) {
+                        var submitID = 'edit',
+                            submit = layero.find('iframe').contents().find('#' + submitID);
+                        submit.trigger('click');
+                    },
+                    success: function (layero, index) {
+                        var body = layer.getChildFrame('body', index);
+                        console.log(data)
+                        body.find("#id").val(data.id);
+                        body.find("#name").val(data.name);
+                        if (data.type == '1') {
+                            body.find("#type1").attr("checked", 'checked');
+                        }
+                        if (data.type == '2') {
+                            body.find("#type2").attr("checked", 'checked');
+                        }
+                        body.find("#money").val(data.money);
+                        body.find("#note").val(data.note);
+                    }
+                })
+            } else if (layEvent === 'download') {
+                //根据开票主键查询
+                $.ajax({
+                    url: "getApplyInvoiceEnclosureInfoById"
+                    , type: "post"
+                    , data: {
+                        id: data.id
+                    }
+                    , async: "false"
+                    , success: function (res) {
+                        if (res.success) {
+                            if (res.data.length == 0) {
+                                layer.msg("该开票申请没有附件！", {icon: '5', time: '1000'})
+                            } else {
+                                $.each(res.data, function (key, val) {
+                                    // console.log(val.id+"  "+val.roomName)
+                                    // console.log(key+"  "+val.filePath)
+                                    //下载文件
+                                    var fileName = val.filePath.substr(val.filePath.lastIndexOf("/") + 1)
+                                    var a = document.createElement('a');
+                                    var evt = document.createEvent('HTMLEvents')
+                                    var url = 'fileDownload?filePath=' + val.filePath;
+                                    evt.initEvent('click', false, false)
+                                    a.href = url;
+                                    a.dispatchEvent(evt);
+                                    a.download = fileName;
+                                    a.click()
+                                })
+                            }
+                        }
+                    }
+                    , error: function () {
+                        layer.msg("系统错误！", {icon: "5", time: 1000})
+                    }
+                })
+            }
+        });
+
+    });
+</script>
+
+</html>

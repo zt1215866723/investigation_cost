@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xwkj.cost.mapper.auto.ContractAdjustMapper">
+  <resultMap id="BaseResultMap" type="com.xwkj.cost.model.ContractAdjust">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="contract_id" jdbcType="BIGINT" property="contractId" />
+    <result column="before_money" jdbcType="DECIMAL" property="beforeMoney" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="after_money" jdbcType="DECIMAL" property="afterMoney" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, contract_id, before_money, money, after_money, status, create_time, note
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_gb_contract_adjust
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tbl_gb_contract_adjust
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xwkj.cost.model.ContractAdjust">
+    insert into tbl_gb_contract_adjust (id, contract_id, before_money, 
+      money, after_money, status, 
+      create_time, note)
+    values (#{id,jdbcType=BIGINT}, #{contractId,jdbcType=BIGINT}, #{beforeMoney,jdbcType=DECIMAL}, 
+      #{money,jdbcType=DECIMAL}, #{afterMoney,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{note,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xwkj.cost.model.ContractAdjust">
+    insert into tbl_gb_contract_adjust
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="contractId != null">
+        contract_id,
+      </if>
+      <if test="beforeMoney != null">
+        before_money,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="afterMoney != null">
+        after_money,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="note != null">
+        note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="contractId != null">
+        #{contractId,jdbcType=BIGINT},
+      </if>
+      <if test="beforeMoney != null">
+        #{beforeMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="afterMoney != null">
+        #{afterMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xwkj.cost.model.ContractAdjust">
+    update tbl_gb_contract_adjust
+    <set>
+      <if test="contractId != null">
+        contract_id = #{contractId,jdbcType=BIGINT},
+      </if>
+      <if test="beforeMoney != null">
+        before_money = #{beforeMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="afterMoney != null">
+        after_money = #{afterMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="note != null">
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xwkj.cost.model.ContractAdjust">
+    update tbl_gb_contract_adjust
+    set contract_id = #{contractId,jdbcType=BIGINT},
+      before_money = #{beforeMoney,jdbcType=DECIMAL},
+      money = #{money,jdbcType=DECIMAL},
+      after_money = #{afterMoney,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      note = #{note,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

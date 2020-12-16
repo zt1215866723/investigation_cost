@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.2</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <style>
+        /*.layui-card-header{*/
+        /*    border:none;*/
+        /*}*/
+        .layui-card-header:first-child {
+            border-bottom: 1px solid #f3f3f3;
+        }
+
+        .layui-card-body p {
+            line-height: 32px;
+            font-size: 14px;
+            color: #333333;
+            padding: 5px 0;
+        }
+
+        .layui-badge {
+            background-color: transparent;
+            width: 100px;
+            margin-right: 10px;
+            text-align: justify;
+            text-justify: distribute-all-lines; /*ie6-8*/
+            text-align-last: justify; /* ie9*/
+            -moz-text-align-last: justify; /*ff*/
+            -webkit-text-align-last: justify; /*chrome 20+*/
+        }
+    </style>
+</head>
+<body>
+<div class="x-nav">
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
+    </a>
+</div>
+<div class="layui-fluid">
+    <!--合同主键-->
+    <input type="hidden" id="contractId">
+    <shiro:hasPermission name="contractcost:contract:details:edit">
+        <div class="layui-card-header">
+            <button class="layui-btn layui-btn-normal" id="editContractInfo">
+                <i class="layui-icon"></i>修改合同发票信息
+            </button>
+        </div>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="contractcost:contract:details:type:edit">
+        <div class="layui-card-header">
+            <button class="layui-btn layui-btn-normal" id="editContractType">
+                <i class="layui-icon"></i>修改合同回款类型
+            </button>
+        </div>
+    </shiro:hasPermission>
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    合同详情
+                </div>
+                <form class="layui-form">
+                    <input type="hidden" id="typeId1">
+                    <input type="hidden" id="projectId1">
+                    <input type="hidden" id="itemManager1">
+                    <div class="layui-card-header">
+                        <div class="layui-col-md6 layui-col-xs12">
+                            <span class="layui-badge layui-bg-blue">合同编号</span>
+                            <textarea style="height: 40px" type="text" name="contractNum" id="contractNum"
+                                      lay-verify="title" autocomplete="off" placeholder="请输入合同编号"
+                                      class="layui-input-inline"></textarea>
+                        </div>
+                        <div class="layui-col-md6 layui-col-xs12">
+                            <span class="layui-badge layui-bg-blue">合同名称</span>
+                            <textarea style="height: 40px" type="text" name="contractName" id="contractName"
+                                      lay-verify="required" lay-reqtext="" placeholder="请输入合同名称" autocomplete="off"
+                                      class="layui-input-inline"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-card-header">
+                        <div class="layui-col-md6 layui-col-xs12">
+                            <span class="layui-badge layui-bg-blue">项目名称</span>
+                            <textarea style="height: 40px" type="text" name="itemName" id="itemName"
+                                      lay-verify="required"
+                                      lay-reqtext="" placeholder="请输入项目名称" autocomplete="off"
+                                      class="layui-input-inline"></textarea>
+                        </div>
+                        <div class="layui-col-md6 layui-col-xs12">
+                            <span class="layui-badge layui-bg-blue">甲方单位</span>
+                            <textarea style="height: 40px" type="text" name="company" id="company" lay-verify="title"
+                                      autocomplete="off" placeholder="请输入甲方单位" class="layui-input-inline"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-card-header">
+                        <div class="layui-col-md6 layui-col-xs12">
+                            <span class="layui-badge layui-bg-blue">业务员</span>
+                            <div class="layui-input-inline layui-show-xs-block nc" style="width: 155px;height: 25px">
+                                <select name="itemManager" id="itemManager" lay-search>
+                                    <option value="">请输入或选择业务员</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="layui-col-md6 layui-col-xs12">
+                            <span class="layui-badge layui-bg-blue">合同金额</span>
+                            <input type="number" min="0" name="contractMoney" id="contractMoney" placeholder="￥"
+                                   autocomplete="off" class="layui-input-inline" style="width: 155px;height: 25px"
+                                   readonly>
+                        </div>
+                    </div>
+                    <div class="layui-card-header">
+                        <div class="layui-col-md6 layui-col-xs12">
+                            <span class="layui-badge layui-bg-blue">甲方联系人</span>
+                            <input type="text" name="customer" id="customer" lay-verify="required" lay-reqtext=""
+                                   placeholder="请输入客户名称" autocomplete="off" class="layui-input-inline"
+                                   style="width: 155px;height: 25px">
+                        </div>
+                        <div class="layui-col-md6 layui-col-xs12">
+                            <span class="layui-badge layui-bg-blue">年份</span>
+                            <input type="text" name="signingTime" id="signingTime" lay-verify="required" lay-reqtext=""
+                                   placeholder="yyyy" autocomplete="off" class="layui-input-inline"
+                                   style="width: 155px;height: 25px">
+                        </div>
+                    </div>
+                    <div class="layui-card-header">
+                        <div class="layui-col-md6 layui-col-xs12">
+                            <span class="layui-badge layui-bg-blue">回款类型</span>
+                            <div class="layui-input-inline layui-show-xs-block nc" style="width: 155px;height: 25px">
+                                <select name="typeId" id="typeId" style="width: 155px;height: 25px">
+                                    <option value="">请选择回款类型</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-col-md6 layui-col-xs12">
+                            <span class="layui-badge layui-bg-blue">状态</span>
+                            <div class="layui-input-inline layui-show-xs-block nc" style="width: 155px;height: 25px">
+                                <select name="status" id="status" style="width: 155px;height: 25px">
+                                    <option value="1">未完成</option>
+                                    <option value="2">已完成</option>
+                                    <option value="0">已作废</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-card-header">
+                        <div class="layui-col-md6 layui-col-xs12">
+                            <span class="layui-badge layui-bg-blue">签订状态</span>
+                            <div class="layui-input-inline layui-show-xs-block nc" style="width: 155px;height: 25px">
+                                <select name="status" id="signingStatus" style="width: 155px;height: 25px">
+                                    <option value="0">是</option>
+                                    <option value="1">否</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-col-md6 layui-col-xs12">
+                            <span class="layui-badge layui-bg-blue">是否存档</span>
+                            <div class="layui-input-inline layui-show-xs-block nc" style="width: 155px;height: 25px">
+                                <select name="status" id="isArchive" style="width: 155px;height: 25px">
+                                    <option value="0">是</option>
+                                    <option value="1">否</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-card-header">
+                        <div class="layui-col-md6 layui-col-xs12">
+                            <span class="layui-badge layui-bg-blue">工程类型</span>
+                            <div class="layui-input-inline layui-show-xs-block nc" style="width: 155px;height: 25px">
+                                <select name="projectId" id="projectId" style="width: 155px;height: 25px">
+                                    <option value="">请选择工程类型</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-card-body">
+                        <p>
+                            <span class="layui-badge layui-bg-blue">特殊说明</span>
+                            <textarea placeholder="请输入内容" id="specialInstructions" name="specialInstructions"
+                                      class="layui-textarea"></textarea>
+                        </p>
+                        <p>
+                            <span class="layui-badge layui-bg-blue">付款方式</span>
+                            <textarea placeholder="请输入内容" name="premium" id="premium" class="layui-textarea"></textarea>
+                        </p>
+                        <p>
+                            <span class="layui-badge layui-bg-blue">项目结论</span>
+                            <textarea placeholder="请输入内容" name="conclusion" id="conclusion"
+                                      class="layui-textarea"></textarea>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    开票信息
+                </div>
+                <div class="layui-card-header" style="height: 150px;">
+                    <div class="layui-col-md12">
+                        <span class="layui-badge layui-bg-green">开户名称</span>
+                        <textarea placeholder="请输入开户名称" id="accountName" name="accountName"
+                                  class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-card-header" style="height: 150px;">
+                    <div class="layui-col-md12">
+                        <span class="layui-badge layui-bg-green">纳税人识别号</span>
+                        <textarea placeholder="请输入纳税人识别号" id="tiNum" name="tiNum" class="layui-textarea"></textarea>
+                        <input type="hidden" name="invoiceInfoId" id="invoiceInfoId">
+                    </div>
+                </div>
+                <div class="layui-card-header" style="height: 150px;">
+                    <div class="layui-col-md12">
+                        <span class="layui-badge layui-bg-green">地点、电话</span>
+                        <textarea placeholder="请输入地点、电话" id="placeOfOpening" name="placeOfOpening"
+                                  class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-card-header" style="height: 150px;">
+                    <div class="layui-col-md12">
+                        <span class="layui-badge layui-bg-green">开户行及账号</span>
+                        <textarea placeholder="请输入开户行及账号" id="openingBank" name="openingBank"
+                                  class="layui-textarea"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="layui-col-md2">-->
+        <!--<div class="layui-card">-->
+        <!--<div class="layui-card-header">-->
+        <!--附件下载-->
+        <!--</div>-->
+        <!--<div style="text-align: center;padding-bottom: 30px">-->
+        <!--<img src="img/file.png">-->
+        <!--<shiro:hasPermission name="contractcost:contract:details:download">-->
+        <!--<button type="button" class="layui-btn" id="download"><i-->
+        <!--class="layui-icon layui-icon-download-circle"></i>下载文件-->
+        <!--</button>-->
+        <!--</shiro:hasPermission>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <div class="layui-form-item">
+            <input type="hidden" value="" name="fileUploads" id="fileUploads">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    附件上传
+                </div>
+                <div style="text-align: center;padding-bottom: 30px">
+                    <!-- <img src="img/file.png"> -->
+                    <div class="layui-upload">
+                        <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button>
+                        <div class="layui-upload-list">
+                            <table class="layui-table">
+                                <thead>
+                                <tr>
+                                    <th>文件名</th>
+                                    <th>大小</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody id="demoList"></tbody>
+                            </table>
+                        </div>
+                        <button type="button" class="layui-btn" id="testListAction">开始上传</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <table class="layui-table" id="titleTable" lay-filter="titleTable" ></table>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="barDemo">
+    <a href="javascript:;"  title="下载" lay-event="download">
+        <i class="layui-icon">&#xe601;</i>
+    </a>
+    <shiro:hasPermission name="contractcost:contract:attachment:del">
+        <a title="删除"  href="javascript:;" lay-event="del">
+            <i class="layui-icon">&#xe640;</i>
+        </a>
+    </shiro:hasPermission>
+
+</script>
+</body>
+<script>
+    function getData(params) {
+        layui.use(['upload', 'laydate', 'table', 'form', 'jquery'], function () {
+            var $ = layui.jquery,
+                table = layui.table,
+                form = layui.form,
+                upload = layui.upload;
+            var laydate = layui.laydate;
+
+            $(document).ready(function(){
+                form.render('select');
+            })
+
+            upload.render({
+                elem: '#test3'
+                , url: '/upload/'
+                , accept: 'file' //普通文件
+                , done: function (res) {
+                    console.log(res)
+                }
+            });
+            //年选择器
+            laydate.render({
+                elem: '#signingTime'
+                , type: 'year'
+            });
+
+            $("#contractMoney").on("click", function () {
+                layer.msg("请点击调整按钮进行合同金额的修改！", {icon: 5, time: 3000})
+            });
+
+            $.ajax({
+                url: 'getManagerInfos',
+                dataType: 'json',
+                type: 'get',
+                success: function (data) {
+                    $.each(data.data, function (index, item) {
+
+                        $('#itemManager').append(
+                            new Option(item.name, item.id));// 下拉菜单里添加元素
+                    });
+                    $('#itemManager').val($('#itemManager1').val())
+                    layui.form.render("select");
+                }
+            });
+
+            $.ajax({
+                url: 'selectProjectTypeList',
+                dataType: 'json',
+                type: 'post',
+                success: function (data) {
+                    $.each(data.data, function (index, item) {
+
+                        $('#projectId').append(
+                            new Option(item.name, item.id));// 下拉菜单里添加元素
+                    });
+                    $('#projectId').val($('#projectId1').val())
+                    layui.form.render("select");
+                }
+            });
+
+            //职称表格
+            var titleTable = table.render({
+                elem: '#titleTable'
+                , id: 'titleTable'
+                , url: 'getEnclosureInfoByContractId' //数据接口
+                , method: 'post'
+                , limit: 10
+                , where:{
+                    id:$('#contractId').val()
+                }
+                , loading: true
+                , text: {
+                    none: '暂无相关数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
+                }
+                , page: true //开启分页
+                , cols: [
+                    [ //表头
+                        {field: 'fileName', title: '上传文件名称', align: 'center'}
+                        , {field: 'createTime', title: '上传时间', align: 'center', templet: function (d) {
+                            if (d.createTime != null){
+                                return layui.util.toDateString(d.createTime, "yyyy-MM-dd HH:mm:ss")
+                            }
+                            return "";
+                        }
+                    }
+                        , {title: '操作', toolbar: '#barDemo', align: 'center'}
+                    ]
+                ]
+                , response: {
+                    statusCode: 1 //重新规定成功的状态码为 200，table 组件默认为 0
+                }
+                , parseData: function (res) { //将原始数据解析成 table 组件所规定的数据
+                    console.log(res)
+                    return {
+                        "code": res.code, //解析接口状态
+                        "msg": res.msg, //解析提示文本
+                        "count": res.data.total, //解析数据长度
+                        "data": res.data //解析数据列表
+                    };
+                }
+            });
+
+            //职称表格监听
+            table.on('tool(titleTable)', function (obj) {
+                var data = obj.data;
+                if (obj.event == 'del') {
+                    layer.confirm('确认要删除吗?', function(index){
+                        $.ajax({
+                            url: "deleteEnclosureInfo/"+data.id,
+                            dataType:"json",
+                            type: "DELETE",
+                            success: function(data){
+                                if(data.success) {
+                                    layer.msg(data.msg, {icon: 6,time: 1500},function () {
+                                        titleTable.reload({
+                                            where: {
+                                                id:$('#contractId').val()
+                                            }
+                                            , page: {
+                                                curr: 1 //重新从第 1 页开始
+                                            }
+                                        });
+                                    });
+                                }else {
+                                    layer.msg(data.msg,{icon:5,time:1000});
+                                }
+                            },
+                            error : function(response){
+                                layer.msg('系统错误！', {
+                                    icon: 5
+                                });
+                            }
+                        });
+                    });
+                }else if(obj.event == 'download'){
+                    //下载文件
+                    var a = document.createElement('a');
+                    var evt = document.createEvent('HTMLEvents')
+                    var url = 'fileDownload?filePath='+data.filePath;
+                    evt.initEvent('click', false, false)
+                    a.href=url;
+                    a.dispatchEvent(evt);
+                    a.download = data.fileName;
+                    a.click()
+                }
+            })
+
+            //查询合同发票信息
+            $.ajax({
+                url: "getInvoiceInfoByContractId"
+                , type: "post"
+                , data: {
+                    id: params.id
+                }
+                , async: "false"
+                , success: function (res) {
+                    if (res.success) {
+                        if (res.data != null) {
+                            $("#invoiceInfoId").val(res.data.id)
+                            $("#tiNum").val(res.data.tiNum)
+                            $("#accountName").val(res.data.accountName)
+                            $("#publicAccountNum").val(res.data.publicAccountNum)
+                            $("#openingBank").val(res.data.openingBank)
+                            $("#placeOfOpening").val(res.data.placeOfOpening)
+                            $("#mailingAddr").val(res.data.mailingAddr)
+                            $("#contactName").val(res.data.contactName)
+                            $("#tel").val(res.data.tel)
+                        }
+                        // else {
+                        //     layer.msg("该合同无发票信息！", {icon: "5", time: 1000})
+                        // }
+                    } else {
+                        layer.msg(res.msg, {icon: "5", time: 1000})
+                    }
+
+                }
+                , error: function () {
+                    layer.msg("系统错误！", {icon: "5", time: 1000})
+                }
+            })
+
+            $.ajax({
+                url: 'getContractTypeList',
+                dataType: 'json',
+                type: 'get',
+                success: function (data) {
+                    $.each(data.data, function (index, item) {
+                        $('#typeId').append(
+                            new Option(item.name, item.id));// 下拉菜单里添加元素
+                    });
+                    $('#typeId').val($('#typeId1').val())
+                    layui.form.render("select");
+                }
+            });
+
+            var detailsTable = table.render({
+                elem: '#detailsTable'
+                , id: 'detailsTable'
+                , url: 'getApplyInvoiceInfoList' //数据接口
+                , method: 'post'
+                , page: true //开启分页
+                , where: {
+                    id: params.id
+                }
+                , limit: 10
+                , text: {
+                    none: "暂无数据！"
+                }
+                , cols: [
+                    [
+                        {field: 'name', align: 'center', title: '申请名称'}
+                        , {
+                        field: 'createtime', align: 'center', title: '开票日期', templet: function (d) {
+                            return layui.util.toDateString(d.createtime, "yyyy-MM-dd")
+                        }
+                    }
+                        // ,{field: 'latetime',align: 'center', title: '发票开具最迟时间', templet: function (d) {
+                        //         return layui.util.toDateString(d.latetime, "yyyy-MM-dd")
+                        //     }}
+                        , {
+                        field: 'type', align: 'center', title: '类型', templet: function (d) {
+                            var stat;
+                            if (d.type == "1") {
+                                stat = "专票"
+                            } else if (d.type == "2") {
+                                stat = "普票"
+                            }
+                            return stat;
+                        }
+                    }
+                        , {field: 'money', align: 'center', title: '金额'}
+                        , {field: 'note', align: 'center', title: '备注'}
+                        , {fixed: 'right', title: '操作', align: 'center', width: '280', toolbar: '#barDemo'}
+                    ]
+                ]
+                , response: {
+                    statusCode: 1 //重新规定成功的状态码为 200，table 组件默认为 0
+                }
+                , parseData: function (res) { //将原始数据解析成 table 组件所规定的数据
+                    return {
+                        "code": res.code, //解析接口状态
+                        "msg": res.msg, //解析提示文本
+                        "count": res.data.total, //解析数据长度
+                        "data": res.data.list //解析数据列表
+                    }
+                }
+            });
+
+            table.on('tool(detailsTable)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+                var data = obj.data; //获得当前行数据
+                var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                var tr = obj.tr; //获得当前行 tr 的DOM对象
+                if (obj.event == 'del') {
+                    layer.confirm('确认要删除吗?', function (index) {
+                        $.ajax({
+                            url: "deleteApplyInvoiceInfo/" + data.id,
+                            dataType: "json",
+                            type: "DELETE",
+                            success: function (data) {
+                                if (data.success) {
+                                    layer.msg(data.msg, {icon: 6, time: 1500}, function () {
+                                        table.reload('detailsTable');
+                                        relodSubContractInfo();
+                                    });
+                                } else {
+                                    layer.msg(data.msg, {icon: 5, time: 1000});
+                                }
+                            },
+                            error: function (response) {
+                                layer.msg('系统错误！', {
+                                    icon: 5
+                                });
+                            }
+                        });
+                    });
+                } else if (obj.event == 'edit') { //编辑
+                    layer.open({
+                        type: 2,
+                        title: "修改其他成本信息",
+                        closeBtn: 1,
+                        content: 'view?url=contract/applyInvoice-edit.html',
+                        area: ['100%', '100%'],
+                        btn: ['确定', '取消'],
+                        shadeClose: true,
+                        yes: function (index, layero) {
+                            var submitID = 'edit',
+                                submit = layero.find('iframe').contents().find('#' + submitID);
+                            submit.trigger('click');
+                        },
+                        success: function (layero, index) {
+                            var body = layer.getChildFrame('body', index);
+                            console.log(data)
+                            body.find("#id").val(data.id);
+                            body.find("#name").val(data.name);
+                            body.find("#createtime").val(layui.util.toDateString(data.createtime, "yyyy-MM-dd"));
+                            body.find("#latetime").val(layui.util.toDateString(data.latetime, "yyyy-MM-dd"));
+                            if (data.type == '1') {
+                                body.find("#type1").attr("checked", 'checked');
+                            }
+                            if (data.type == '2') {
+                                body.find("#type2").attr("checked", 'checked');
+                            }
+                            body.find("#money").val(data.money);
+                            body.find("#note").val(data.note);
+                        }
+                    })
+                } else if (layEvent === 'download') {
+                    //根据开票主键查询
+                    $.ajax({
+                        url: "getApplyInvoiceEnclosureInfoById"
+                        , type: "post"
+                        , data: {
+                            id: data.id
+                        }
+                        , async: "false"
+                        , success: function (res) {
+                            if (res.success) {
+                                if (res.data.length == 0) {
+                                    layer.msg("该开票申请没有附件！", {icon: '5', time: '1000'})
+                                } else {
+                                    $.each(res.data, function (key, val) {
+                                        // console.log(val.id+"  "+val.roomName)
+                                        // console.log(key+"  "+val.filePath)
+                                        //下载文件
+                                        var fileName = val.filePath.substr(val.filePath.lastIndexOf("/") + 1)
+                                        var a = document.createElement('a');
+                                        var evt = document.createEvent('HTMLEvents')
+                                        var url = 'fileDownload?filePath=' + val.filePath;
+                                        evt.initEvent('click', false, false)
+                                        a.href = url;
+                                        a.dispatchEvent(evt);
+                                        a.download = fileName;
+                                        a.click()
+                                    })
+                                }
+                            }
+                        }
+                        , error: function () {
+                            layer.msg("系统错误！", {icon: "5", time: 1000})
+                        }
+                    })
+                }
+            });
+
+            //修改合同信息
+            $("#editContractInfo").on('click', function () {
+                //查询合同发票信息
+                $.ajax({
+                    url: "editContractInfo"
+                    , type: "post"
+                    , data: {
+                        id: params.id
+                        , contractNum: $("#contractNum").val()
+                        , contractName: $("#contractName").val()
+                        , itemName: $("#itemName").val()
+                        , itemManager: $("#itemManager").val()
+                        , company: $("#company").val()
+                        , contractMoney: $("#contractMoney").val()
+                        , customer: $("#customer").val()
+                        , specialInstructions: $("#specialInstructions").val()
+                        , premium: $("#premium").val()
+                        , conclusion: $("#conclusion").val()
+                        , status: $("#status").val()
+                        , signingTime: $("#signingTime").val()
+                        , type: $("#typeId").val()
+                        , signingStatus: $("#signingStatus").val()
+                        , isArchive: $("#isArchive").val()
+                        , projectId: $("#projectId").val()
+                        , fileUploads: $("#fileUploads").val()
+                        , titleTrueName :titleTrueName
+                    }
+                    , async: "false"
+                    , success: function (res) {
+                        if (res.success) {
+                            layer.msg(res.msg, {icon: "6", time: 1000}, function () {
+                                var flag = true
+                                if ($.trim($("#tel").val()) != "") {
+                                    var tel = $.trim($("#tel").val());
+                                    var isMobile = /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1})|(19[0-9]{1}))+\d{8})$/
+                                    if (!isMobile.test(tel)) {
+                                        flag = false
+                                        layer.msg("开票联系电话格式有误", {icon: 5, time: 1000})
+                                    }
+                                    ;
+                                }
+                                if (flag) {
+                                    $.ajax({
+                                        url: "editInvoiceInfo"
+                                        , type: "post"
+                                        , data: {
+                                            id: $("#invoiceInfoId").val()
+                                            , tiNum: $("#tiNum").val()
+                                            , accountName: $("#accountName").val()
+                                            , publicAccountNum: $("#publicAccountNum").val()
+                                            , openingBank: $("#openingBank").val()
+                                            , placeOfOpening: $("#placeOfOpening").val()
+                                            , mailingAddr: $("#mailingAddr").val()
+                                            , contactName: $("#contactName").val()
+                                            , tel: $("#tel").val()
+                                        }
+                                        , async: "false"
+                                        , success: function (result) {
+                                            if (res.success) {
+                                                layer.msg(result.msg, {icon: "6", time: 1000})
+                                            } else {
+                                                layer.msg("发票修改失败", {icon: "5", time: 1000})
+                                            }
+                                        }
+                                        , error: function () {
+                                            layer.msg("系统错误！", {icon: "5", time: 1000})
+                                        }
+                                    })
+                                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                                    parent.layer.close(index); //再执行关闭
+                                    parent.layui.table.reload("contractTable");
+                                }
+                            })
+
+                        } else {
+                            layer.msg(res.msg, {icon: '5', time: '1500'})
+                        }
+                    }
+                    , error: function () {
+                        layer.msg("系统错误！", {icon: "5", time: 1000})
+                    }
+                })
+            })
+
+            //修改合同回款类型
+            $("#editContractType").on('click', function () {
+                //查询合同发票信息
+                $.ajax({
+                    url: "editContractInfo"
+                    , type: "post"
+                    , data: {
+                        id: params.id
+                        , type: $("#typeId").val()
+                    }
+                    , async: "false"
+                    , success: function (res) {
+                        if (res.success) {
+                            layer.msg("修改合同回款类型成功", {icon: "6", time: 1000}, function () {
+                                var flag = true
+                                if ($.trim($("#tel").val()) != "") {
+                                    var tel = $.trim($("#tel").val());
+                                    var isMobile = /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1})|(19[0-9]{1}))+\d{8})$/
+                                    if (!isMobile.test(tel)) {
+                                        flag = false
+                                        layer.msg("开票联系电话格式有误", {icon: 5, time: 1000})
+                                    }
+                                    ;
+                                }
+                                if (flag) {
+                                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                                    parent.layer.close(index); //再执行关闭
+                                    parent.layui.table.reload("contractTable");
+                                }
+                            })
+
+                        } else {
+                            layer.msg(res.msg, {icon: '5', time: '1500'})
+                        }
+                    }
+                    , error: function () {
+                        layer.msg("系统错误！", {icon: "5", time: 1000})
+                    }
+                })
+            })
+
+            //下载合同附件
+            $("#download").on('click', function () {
+                $.ajax({
+                    url: "getEnclosureInfoByContractId"
+                    , type: "post"
+                    , data: {
+                        id: params.id
+                    }
+                    , async: "false"
+                    , success: function (res) {
+                        if (res.success) {
+                            if (res.data.length == 0) {
+                                layer.msg("该合同没有附件！", {icon: '5', time: '1000'})
+                            } else {
+                                $.each(res.data, function (key, val) {
+                                    // console.log(val.id+"  "+val.roomName)
+                                    // console.log(key+"  "+val.filePath)
+                                    //下载文件
+                                    var fileName = val.filePath.substr(val.filePath.lastIndexOf("/") + 1)
+                                    var a = document.createElement('a');
+                                    var evt = document.createEvent('HTMLEvents')
+                                    var url = 'fileDownload?filePath=' + val.filePath;
+                                    evt.initEvent('click', false, false)
+                                    a.href = url;
+                                    a.dispatchEvent(evt);
+                                    a.download = fileName;
+                                    a.click()
+                                })
+                            }
+                        }
+                    }
+                    , error: function () {
+                        layer.msg("系统错误！", {icon: "5", time: 1000})
+                    }
+                })
+            })
+
+            var titleTrueName = []
+
+            //多文件列表示例
+            var demoListView = $('#demoList')
+                , uploadListIns = upload.render({
+                elem: '#testList'
+                , url: '/uploads'
+                , accept: 'file'
+                , multiple: true
+                , auto: false
+                , bindAction: '#testListAction'
+                , choose: function (obj) {
+                    var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                    //读取本地文件
+                    obj.preview(function (index, file, result) {
+                        titleTrueName.push(file.name)
+                        var tr = $(['<tr id="upload-' + index + '">'
+                            , '<td>' + file.name + '</td>'
+                            , '<td>' + (file.size / 1014).toFixed(1) + 'kb</td>'
+                            , '<td>等待上传</td>'
+                            , '<td>'
+                            , '<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                            , '<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                            , '</td>'
+                            , '</tr>'].join(''));
+
+                        //单个重传
+                        tr.find('.demo-reload').on('click', function () {
+                            obj.upload(index, file);
+                        });
+
+                        //删除
+                        tr.find('.demo-delete').on('click', function () {
+                            delete files[index]; //删除对应的文件
+                            tr.remove();
+                            uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                        });
+
+                        demoListView.append(tr);
+                    });
+                }
+                , done: function (res, index, upload) {
+                    console.log(res)
+                    if (res.code == 0) { //上传成功
+                        //伪上传,返回上传路径
+                        //原数据
+                        var filePaths = $("#fileUploads").val()
+                        filePaths += res.data
+                        $("#fileUploads").val(filePaths)
+                        console.log($("#filePaths").val())
+                        var tr = demoListView.find('tr#upload-' + index)
+                            , tds = tr.children();
+                        tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                        tds.eq(3).html(''); //清空操作
+                        return delete this.files[index]; //删除文件队列已经上传成功的文件
+                    }
+                    this.error(index, upload);
+                }
+                , error: function (index, upload) {
+                    var tr = demoListView.find('tr#upload-' + index)
+                        , tds = tr.children();
+                    tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                    tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+                }
+            });
+
+        });
+
+
+    }
+
+</script>
+
+</html>

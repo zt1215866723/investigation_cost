@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xwkj.cost.mapper.ReportInfoMapperManual" >
+  <resultMap id="BaseResultMap" type="com.xwkj.cost.model.ReportInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="contract_id" property="contractId" jdbcType="BIGINT" />
+    <result column="report_number" property="reportNumber" jdbcType="VARCHAR" />
+    <result column="report_name" property="reportName" jdbcType="VARCHAR" />
+    <result column="signed_workload" property="signedWorkload" jdbcType="VARCHAR" />
+    <result column="actual_workload" property="actualWorkload" jdbcType="VARCHAR" />
+    <result column="measurement_unit" property="measurementUnit" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, contract_id, report_number, report_name, signed_workload, actual_workload, measurement_unit,
+    status
+  </sql>
+
+  <select id="getReportInfoList" resultMap="BaseResultMap">
+    SELECT
+      *
+    FROM
+      tbl_gb_report_info
+    WHERE
+      status = 1
+      and contract_id = #{contractId}
+  </select>
+</mapper>
