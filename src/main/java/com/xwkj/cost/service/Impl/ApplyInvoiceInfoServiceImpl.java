@@ -10,7 +10,6 @@ import com.xwkj.cost.model.ApplyInvoiceEnclosureInfo;
 import com.xwkj.cost.model.ApplyInvoiceInfo;
 import com.xwkj.cost.model.MoneyBackInfo;
 import com.xwkj.cost.service.ApplyInvoiceInfoService;
-import com.xwkj.cost.util.DateUtil;
 import com.xwkj.cost.util.PageUtil;
 import com.xwkj.cost.vo.ApplyInvoiceVo;
 import com.xwkj.cost.vo.InvoiceStatisticsVo;
@@ -21,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -62,14 +60,14 @@ public class ApplyInvoiceInfoServiceImpl implements ApplyInvoiceInfoService {
         //申请开票记录
         applyInvoiceInfo.setStatus(1);
         String name = applyInvoiceInfo.getName();
-        String[] split = name.split("\\.");
-        Date date = null;
-        try {
-            date = DateUtil.stringToDate(split[0] + "-" + split[1] + "-01", "yyyy-MM-dd");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        applyInvoiceInfo.setCreatetime(date);
+//        String[] split = name.split("\\.");
+//        Date date = null;
+//        try {
+//            date = DateUtil.stringToDate(split[0] + "-" + split[1] + "-01", "yyyy-MM-dd");
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        applyInvoiceInfo.setCreatetime(date);
         applyInvoiceInfoMapperManual.insert(applyInvoiceInfo);
         //添加附件
         Long id = applyInvoiceInfo.getId();
@@ -153,34 +151,29 @@ public class ApplyInvoiceInfoServiceImpl implements ApplyInvoiceInfoService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean editApplyInvoiceInfo(ApplyInvoiceInfo applyInvoiceInfo) {
-        try {
-            String[] split = applyInvoiceInfo.getName().split("\\.");
-            Date date = DateUtil.stringToDate(split[0] + "-" + split[1] + "-01", "yyyy-MM-dd");
-            applyInvoiceInfo.setCreatetime(date);
-            //主键查询
-            ApplyInvoiceInfo applyInvoiceInfo1 = applyInvoiceInfoMapper.selectByPrimaryKey(applyInvoiceInfo.getId());
-            if (applyInvoiceInfo1 != null) {
-                //修改申请钱数
-                if (applyInvoiceInfo1.getMoneyBackId() != null) {
-                    //修改
-                    MoneyBackInfo moneyBackInfo = new MoneyBackInfo();
-                    moneyBackInfo.setMoney(applyInvoiceInfo.getMoney());
-                    moneyBackInfo.setInvoiceType(applyInvoiceInfo.getType());
-                    int i = moneyBackInfoMapper.updateByPrimaryKeySelective(moneyBackInfo);
-                    if (i != 0) {
-                        applyInvoiceInfoMapper.updateByPrimaryKeySelective(applyInvoiceInfo);
-                    } else {
-                        return false;
-                    }
-                } else {
+//            String[] split = applyInvoiceInfo.getName().split("\\.");
+//            Date date = DateUtil.stringToDate(split[0] + "-" + split[1] + "-01", "yyyy-MM-dd");
+//            applyInvoiceInfo.setCreatetime(date);
+        //主键查询
+        ApplyInvoiceInfo applyInvoiceInfo1 = applyInvoiceInfoMapper.selectByPrimaryKey(applyInvoiceInfo.getId());
+        if (applyInvoiceInfo1 != null) {
+            //修改申请钱数
+            if (applyInvoiceInfo1.getMoneyBackId() != null) {
+                //修改
+                MoneyBackInfo moneyBackInfo = new MoneyBackInfo();
+                moneyBackInfo.setMoney(applyInvoiceInfo.getMoney());
+                moneyBackInfo.setInvoiceType(applyInvoiceInfo.getType());
+                int i = moneyBackInfoMapper.updateByPrimaryKeySelective(moneyBackInfo);
+                if (i != 0) {
                     applyInvoiceInfoMapper.updateByPrimaryKeySelective(applyInvoiceInfo);
+                } else {
+                    return false;
                 }
+            } else {
+                applyInvoiceInfoMapper.updateByPrimaryKeySelective(applyInvoiceInfo);
             }
-            return true;
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
-        return null;
+        return true;
     }
 
     @Override

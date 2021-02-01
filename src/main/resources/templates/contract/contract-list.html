@@ -42,10 +42,14 @@
                                    class="layui-input">
                         </div>
                         <div class="layui-input-inline layui-show-xs-block">
-                            <input type="text" name="signingTime" id="signingTime" placeholder="请选择年份"
-                                   autocomplete="off"
-                                   class="layui-input">
+                            <input id="timeLimit" class="layui-input" autocomplete="off" type="text"
+                                   placeholder="请选择年份"/>
                         </div>
+<!--                        <div class="layui-input-inline layui-show-xs-block">-->
+<!--                            <input type="text" name="signingTime" id="signingTime" placeholder="请选择年份"-->
+<!--                                   autocomplete="off"-->
+<!--                                   class="layui-input">-->
+<!--                        </div>-->
                         <div class="layui-input-inline layui-show-xs-block nc">
                             <select name="itemManager" id="itemManager" lay-search>
                                 <option value="">请输入或选择业务员</option>
@@ -107,13 +111,22 @@
                                 <i class="layui-icon"></i>添加</a>
                         </shiro:hasPermission>
                         <shiro:hasPermission name="contractcost:contract:export">
-                            <button class="layui-btn layui-btn-normal" lay-event="printfContractWord">
-                                导出未收款项目对账表
+                            <button class="layui-btn layui-btn-normal" lay-event="printfContractWord1">
+                                未收款项目对账表
+                            </button>
+                            <button class="layui-btn layui-btn-normal" lay-event="printfContractWord2">
+                                开票未收款项目对账表
+                            </button>
+                            <button class="layui-btn layui-btn-normal" lay-event="printfContractWord3">
+                                未开票未收款项目对账表
                             </button>
                         </shiro:hasPermission>
                         <shiro:hasPermission name="contractcost:contract:summary">
                             <button class="layui-btn layui-btn-normal" lay-event="printfContractSummary">
                                 导出合同汇总表
+                            </button>
+                            <button class="layui-btn layui-btn-normal" lay-event="printfYearSummary">
+                                导出年度汇总表
                             </button>
                         </shiro:hasPermission>
                     </div>
@@ -134,9 +147,9 @@
     <shiro:hasPermission name="contractcost:contract:apply:add">
         <a class="layui-btn layui-btn-xs" lay-event="applyInvoice">开票</a>
     </shiro:hasPermission>
-    <shiro:hasPermission name="contractcost:contract:back:view">
-        <a class="layui-btn layui-btn-xs" lay-event="moneyBack">回款</a>
-    </shiro:hasPermission>
+<!--    <shiro:hasPermission name="contractcost:contract:back:view">-->
+<!--        <a class="layui-btn layui-btn-xs" lay-event="moneyBack">回款</a>-->
+<!--    </shiro:hasPermission>-->
     <shiro:hasPermission name="contractcost:contract:adjustment:view">
         <a class="layui-btn layui-btn-xs" lay-event="adjustment">调整</a>
     </shiro:hasPermission>
@@ -156,6 +169,14 @@
             , table = layui.table
             , form = layui.form
             , $ = layui.jquery;
+
+        //渲染时间选择框
+        laydate.render({
+            elem: '#timeLimit',
+            trigger: 'click',
+            range: true,
+            type: 'year'
+        });
 
         //年选择器
         laydate.render({
@@ -216,23 +237,25 @@
             , page: true //开启分页
             , totalRow: true
             , even: true
-            , limit: 90
+            , limit: 100
+            , limits: [10,20,50,100,200,500,1000]
+            , height: 500
             , text: {
                 none: "暂无数据！"
             }
             , cols: [
                 [
                     {type: 'checkbox', fixed: 'left'}
-                    , {field: 'managerName', align: 'center', title: '业务员', totalRowText: '合计', width: 80}
-                    , {field: 'signingTime', align: 'center', title: '年份', width: 80}
-                    , {field: 'contractNum', align: 'center', title: '合同编号', width: 120}
-                    , {field: 'itemName', align: 'center', title: '工程项目', width: 300}
-                    , {field: 'company', align: 'center', title: '付款单位', width: 300}
+                    , {field: 'managerName', align: 'center', title: '业务员', totalRowText: '合计', width: 80, fixed: 'left'}
+                    , {field: 'signingTime', align: 'center', title: '年份', width: 80, fixed: 'left'}
+                    , {field: 'contractNum', align: 'center', title: '合同编号', width: 100, fixed: 'left'}
+                    , {field: 'itemName', align: 'center', title: '工程项目', width: 150, fixed: 'left'}
+                    , {field: 'company', align: 'center', title: '付款单位', width: 150}
                     , {field: 'openTime', align: 'center', title: '开票时间', width: 100, hide: true}
                     , {field: 'contractMoney', align: 'center', title: '合同金额', totalRow: true, width: 100}
                     , {field: 'moneySum', align: 'center', title: '已收金额', totalRow: true, width: 100}
                     , {field: 'noMoneySum', align: 'center', title: '未收金额', totalRow: true, width: 100}
-                    , {field: 'noOpenNoMoneySum', align: 'center', title: '未开票未收金额', totalRow: true, width: 120}
+                    , {field: 'noOpenNoMoneySum', align: 'center', title: '未开票金额', totalRow: true, width: 100}
                     , {field: 'openMoneySum', align: 'center', title: '已开票金额', totalRow: true, width: 100}
                     , {field: 'yesOpenMoneySum', align: 'center', title: '开票已收', totalRow: true, width: 100}
                     , {field: 'noOpenMoneySum', align: 'center', title: '开票未收', totalRow: true, width: 100}
@@ -275,7 +298,7 @@
                     }
                     , width: 80
                 }
-                    , {title: '操作', toolbar: '#barDemo', align: 'center', width: 366, fixed: 'right'}
+                    , {title: '操作', toolbar: '#barDemo', align: 'center', width: 305, fixed: 'right'}
                 ]
             ]
             , response: {
@@ -378,6 +401,7 @@
                     contractType: $("#contractType").val(),
                     projectId: $("#projectId").val(),
                     signingTime: $("#signingTime").val(),
+                    timeLimit: $("#timeLimit").val(),
                     isArchive: $("#isArchive").val(),
                     signingStatus: $("#signingStatus").val()
                 }
@@ -430,7 +454,7 @@
                         }
                     });
                     break;
-                case 'printfContractWord':
+                case 'printfContractWord1':
                     //导出合同报表
                     var data = checkStatus.data;
                     var contractIds = []
@@ -441,7 +465,55 @@
                         layer.msg("没有选中行！", {icon: '5', time: '1000'})
                     } else {
                         var downloader = document.createElement("a");
-                        downloader.setAttribute("href", "printfContractWord?contractId=" + contractIds);
+                        downloader.setAttribute("href", "printfContractWord?contractId=" + contractIds +"&type=1");
+                        // $("body").append(downloader);
+
+                        // downloader.setAttribute('target', '_blank');
+                        downloader.setAttribute('id', 'startTelMedicine');
+                        // 防止反复添加
+                        if (document.getElementById('startTelMedicine')) {
+                            document.body.removeChild(document.getElementById('startTelMedicine'));
+                        }
+                        document.body.appendChild(downloader);
+                        downloader.click();
+                    }
+                    break;
+                case 'printfContractWord2':
+                    //导出合同报表
+                    var data = checkStatus.data;
+                    var contractIds = []
+                    for(var key in idMap){
+                        contractIds.push(key)
+                    }
+                    if (contractIds.length == 0) {
+                        layer.msg("没有选中行！", {icon: '5', time: '1000'})
+                    } else {
+                        var downloader = document.createElement("a");
+                        downloader.setAttribute("href", "printfContractWord?contractId=" + contractIds +"&type=2");
+                        // $("body").append(downloader);
+
+                        // downloader.setAttribute('target', '_blank');
+                        downloader.setAttribute('id', 'startTelMedicine');
+                        // 防止反复添加
+                        if (document.getElementById('startTelMedicine')) {
+                            document.body.removeChild(document.getElementById('startTelMedicine'));
+                        }
+                        document.body.appendChild(downloader);
+                        downloader.click();
+                    }
+                    break;
+                case 'printfContractWord3':
+                    //导出合同报表
+                    var data = checkStatus.data;
+                    var contractIds = []
+                    for(var key in idMap){
+                        contractIds.push(key)
+                    }
+                    if (contractIds.length == 0) {
+                        layer.msg("没有选中行！", {icon: '5', time: '1000'})
+                    } else {
+                        var downloader = document.createElement("a");
+                        downloader.setAttribute("href", "printfContractWord?contractId=" + contractIds +"&type=3");
                         // $("body").append(downloader);
 
                         // downloader.setAttribute('target', '_blank');
@@ -493,6 +565,26 @@
                     } else {
                         var downloader = document.createElement("a");
                         downloader.setAttribute("href", "printfContractSummary?contractId=" + contractIds);
+                        // $("body").append(downloader);
+
+                        // downloader.setAttribute('target', '_blank');
+                        downloader.setAttribute('id', 'startTelMedicine');
+                        // 防止反复添加
+                        if (document.getElementById('startTelMedicine')) {
+                            document.body.removeChild(document.getElementById('startTelMedicine'));
+                        }
+                        document.body.appendChild(downloader);
+                        downloader.click();
+                    }
+                    break;
+                case 'printfYearSummary':
+                    //导出年度报表
+                    var timeLimit = $("#timeLimit").val()
+                    if (timeLimit == null || timeLimit == '') {
+                        layer.msg("请选择年度区间！", {icon: '5', time: '1000'})
+                    } else {
+                        var downloader = document.createElement("a");
+                        downloader.setAttribute("href", "printfYearSummary?timeLimit=" + timeLimit);
                         // $("body").append(downloader);
 
                         // downloader.setAttribute('target', '_blank');

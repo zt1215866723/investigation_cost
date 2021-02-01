@@ -67,12 +67,15 @@
                     <!--</div>-->
                     <!--</div>-->
                     <!--</div>-->
+                    <div class="layui-col-xs6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">凭证号</label>
                         <div class="layui-input-inline">
                             <input type="text" name="name" id="name" lay-verify="required" lay-reqtext="" placeholder="请输入申请名称" autocomplete="off" class="layui-input">
                         </div>
                     </div>
+                    </div>
+                    <div class="layui-col-xs6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">开票类型</label>
                         <div class="layui-input-block">
@@ -80,16 +83,28 @@
                             <input type="radio" name="type" id="type2" value="2" title="普票">
                         </div>
                     </div>
+                    </div>
+                    <div class="layui-col-xs6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">开票日期</label>
+                            <div class="layui-input-inline">
+                                <input id="createtime" name="createtime" autocomplete="off" type="text"
+                                       class="layui-input"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">开票金额</label>
                         <div class="layui-input-inline">
                             <input type="number" min="0" name="money" id="money" lay-verify="required" lay-reqtext="" placeholder="请输入开票金额" autocomplete="off" class="layui-input">
                         </div>
                     </div>
+                    </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">备注</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="note" id="note" lay-reqtext="" placeholder="请输入备注" autocomplete="off" class="layui-input">
+                            <textarea type="text" name="note" id="note" lay-reqtext="" placeholder="请输入备注" autocomplete="off" class="layui-textarea"></textarea>
                         </div>
                     </div>
 
@@ -119,7 +134,7 @@
             //年月选择器
             laydate.render({
                 elem: '#createtime'
-                ,type: 'month'
+                ,type: 'date'
             });
 
             //指定允许上传的文件类型

@@ -154,10 +154,10 @@ public class ContractInfoController {
 	 * @author: wanglei
 	 */
 	@GetMapping("printfContractWord")
-	public ResponseResult printfContractWord(String[] contractId, HttpServletResponse response) {
+	public ResponseResult printfContractWord(String[] contractId,Integer type, HttpServletResponse response) {
 		ResponseResult responseResult = null;
 		try {
-			wordService.printfContractWord(contractId,response);
+			wordService.printfContractWord(contractId,type,response);
 			log.info("打印合同成本报表成功！");
 			responseResult = ResponseResult.success(ResponseResultEnum.SUCCESS.getCode(),null,"打印合同成本报表成功！");
 		}catch (Exception e) {
@@ -188,6 +188,24 @@ public class ContractInfoController {
 			e.printStackTrace();
 			log.error("打印合同汇总报表失败！");
 			responseResult = ResponseResult.failure("打印合同汇总报表失败！");
+		}
+		return responseResult;
+	}
+
+	/***
+	 * @description: 打印年度汇总报表
+	 */
+	@GetMapping("printfYearSummary")
+	public ResponseResult printfYearSummary(String timeLimit, HttpServletResponse response) {
+		ResponseResult responseResult = null;
+		try {
+			wordService.printfYearSummary(timeLimit,response);
+			log.info("打印年度汇总报表成功！");
+			responseResult = ResponseResult.success(ResponseResultEnum.SUCCESS.getCode(),null,"打印年度汇总报表成功！");
+		}catch (Exception e) {
+			e.printStackTrace();
+			log.error("打印年度汇总报表失败！");
+			responseResult = ResponseResult.failure("打印年度汇总报表失败！");
 		}
 		return responseResult;
 	}

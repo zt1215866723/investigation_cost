@@ -85,7 +85,7 @@ from tbl_gb_apply_invoice where contract_id = #{contractId} and status = 1
   <select id="getInvoiceStatistics" resultMap="BaseResultMap3">
     SELECT
     c.signing_time AS signingTime,
-    DATE_FORMAT( a.createtime, "%Y-%m" ) AS applyTime,
+    DATE_FORMAT( a.createtime, "%Y-%m-%d" ) AS applyTime,
     c.company AS company,
     c.item_name AS itemName,
     c.item_manager AS itemManager,
@@ -109,9 +109,6 @@ from tbl_gb_apply_invoice where contract_id = #{contractId} and status = 1
     <if test="end != null">
       AND a.createtime <![CDATA[ <= ]]> #{end}
     </if>
-    <if test="signingTime != null and signingTime != ''">
-      AND c.signing_time = #{signingTime}
-    </if>
     <if test="itemManager != null and itemManager != ''">
       AND c.item_manager = #{itemManager}
     </if>
@@ -119,6 +116,6 @@ from tbl_gb_apply_invoice where contract_id = #{contractId} and status = 1
       AND a.money = #{applyMoney}
     </if>
     ORDER BY
-    applyTime
+    applyTime desc
   </select>
 </mapper>

@@ -9,7 +9,7 @@
         <result column="contract_id" property="contractId" jdbcType="BIGINT" />
     </resultMap>
     <sql id="Base_Column_List" >
-      id, file_path, create_time, contract_id
+      id, file_path, create_time, contract_id, file_name
     </sql>
     <select id="selectEnclosureInfoByContractId" resultMap="BaseResultMap">
         select

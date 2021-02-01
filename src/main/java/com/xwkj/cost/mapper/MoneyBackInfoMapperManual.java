@@ -2,7 +2,9 @@ package com.xwkj.cost.mapper;
 
 import com.xwkj.cost.model.MoneyBackInfo;
 import com.xwkj.cost.vo.ContractInfoAndInvoiceInfoVo;
+import com.xwkj.cost.vo.InvoiceStatisticsVo;
 import com.xwkj.cost.vo.MoneyBackVo;
+import com.xwkj.cost.vo.SelectContractInfoVo;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -43,4 +45,6 @@ public interface MoneyBackInfoMapperManual {
     MoneyBackInfo findMoneyBackById(Long moneyBackId);
 
     List<MoneyBackVo> getMoneyBackTime(Long paramLong);
+
+    List<InvoiceStatisticsVo> getMoneyBackStatistics(SelectContractInfoVo selectContractInfoVo);
 }

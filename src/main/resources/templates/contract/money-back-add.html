@@ -18,6 +18,13 @@
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
+        form {
+            padding: 20px;
+        }
+
+        .layui-textarea {
+            min-height: 80px;
+        }
         body {
             background: white;
         }
@@ -26,68 +33,91 @@
 
 <body>
 <div class="layui-fluid">
-    <div class="layui-row">
-        <form class="layui-form" id="addMoney">
-            <div class="layui-form-item">
-                <input class="layui-input" type="hidden" name="id" id="id">
-                <input class="layui-input" type="hidden" name="contractId" id="contractId">
-                <input class="layui-input" type="hidden" name="contractMoney" id="contractMoney">
-                <input class="layui-input" type="hidden" name="moneySum" id="moneySum">
-                <div class="layui-form-item">
-                    <label for="money" class="layui-form-label">
-                        凭证号</label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="certificateNumber" name="certificateNumber" lay-verify="required"
-                               required=""
-                               autocomplete="off" class="layui-input"></div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">是否开发票</label>
-                    <div class="layui-input-block">
-                        <input type="radio" lay-filter="hasInvoice" name="hasInvoice" id="isInvoice1" value="1"
-                               title="是" checked="">
-                        <input type="radio" lay-filter="hasInvoice" name="hasInvoice" id="isInvoice2" value="0"
-                               title="否">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <form class="layui-form" id="addMoney">
+                    <input class="layui-input" type="hidden" name="id" id="id">
+                    <input class="layui-input" type="hidden" name="contractId" id="contractId">
+                    <input class="layui-input" type="hidden" name="contractMoney" id="contractMoney">
+                    <input class="layui-input" type="hidden" name="moneySum" id="moneySum">
+                    <div class="layui-col-xs6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">凭证号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="certificateNumber" name="certificateNumber" lay-verify="required"
+                                       required=""
+                                       autocomplete="off" class="layui-input"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="layui-form-item" id="invType">
-                    <label class="layui-form-label">发票类型</label>
-                    <div class="layui-input-block">
-                        <input type="radio" lay-filter="invoiceType" name="invoiceType" id="invoiceType1" value="1"
-                               title="专票">
-                        <input type="radio" lay-filter="invoiceType" name="invoiceType" id="invoiceType2" value="2"
-                               title="普票">
+                    <div class="layui-col-xs6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">是否开发票</label>
+                            <div class="layui-input-block">
+                                <input type="radio" lay-filter="hasInvoice" name="hasInvoice" id="isInvoice1" value="1"
+                                       title="是" checked="">
+                                <input type="radio" lay-filter="hasInvoice" name="hasInvoice" id="isInvoice2" value="0"
+                                       title="否">
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="layui-form-item" id="appId">
-                    <label class="layui-form-label">请选择发票</label>
-                    <div class="layui-input-inline">
-                        <select name="applyInvoiceId" id="applyInvoiceId" lay-filter="applyInvoiceId">
-                            <option value="">请选择发票</option>
-                        </select>
+                    <div class="layui-col-xs6">
+                        <div class="layui-form-item" id="invType">
+                            <label class="layui-form-label">发票类型</label>
+                            <div class="layui-input-block">
+                                <input type="radio" lay-filter="invoiceType" name="invoiceType" id="invoiceType1"
+                                       value="1"
+                                       title="专票">
+                                <input type="radio" lay-filter="invoiceType" name="invoiceType" id="invoiceType2"
+                                       value="2"
+                                       title="普票">
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="layui-form-item" id="appMoney">
-                    <label for="money" class="layui-form-label">
-                        <span class="x-red">*</span>金额</label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="money" name="money" required="" lay-verify="required" autocomplete="off"
-                               class="layui-input"></div>
-                </div>
-                <div class="layui-form-item">
-                    <label for="money" class="layui-form-label">
-                        回款备注</label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="invaiceRemark" name="invaiceRemark" lay-verify="money"
-                               autocomplete="off" class="layui-input"></div>
-                </div>
-                <div class="layui-form-item layui-hide">
-                    <button class="layui-btn" lay-filter="LAY-moneyBack-add-submit" id="LAY-moneyBack-add-submit"
-                            lay-submit="LAY-moneyBack-add-submit">增加
-                    </button>
-                </div>
+                    <div class="layui-col-xs6">
+                        <div class="layui-form-item" id="appId">
+                            <label class="layui-form-label">请选择发票</label>
+                            <div class="layui-input-inline">
+                                <select name="applyInvoiceId" id="applyInvoiceId" lay-filter="applyInvoiceId">
+                                    <option value="">请选择发票</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">回款日期</label>
+                            <div class="layui-input-inline">
+                                <input id="arrivalMoney" name="arrivalMoney" autocomplete="off" type="text"
+                                       class="layui-input"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs6">
+                        <div class="layui-form-item" id="appMoney">
+                            <label for="money" class="layui-form-label">
+                                <span class="x-red">*</span>金额</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="money" name="money" required="" lay-verify="required"
+                                       autocomplete="off"
+                                       class="layui-input"></div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="money" class="layui-form-label">
+                            回款备注</label>
+                        <div class="layui-input-inline">
+                            <textarea type="text" id="invaiceRemark" name="invaiceRemark" lay-verify="money"
+                                      autocomplete="off" class="layui-textarea"></textarea></div>
+                    </div>
+                    <div class="layui-form-item layui-hide">
+                        <button class="layui-btn" lay-filter="LAY-moneyBack-add-submit" id="LAY-moneyBack-add-submit"
+                                lay-submit="LAY-moneyBack-add-submit">增加
+                        </button>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 <script>
@@ -100,7 +130,7 @@
             //年月选择器
             laydate.render({
                 elem: '#arrivalMoney'
-                , type: 'month'
+                , type: 'date'
             });
             // var text = $('#money');
             // text.on('keyup', function () {
@@ -132,8 +162,7 @@
                     //不开发票
                     $("#invType").hide();
                     $("#appId").hide();
-                }
-                else if (val == 1) {
+                } else if (val == 1) {
                     //开发票
                     $("#invType").show();
                     $("#appId").show();

@@ -196,4 +196,22 @@ public class ApplyInvoiceInfoController {
 		}
 		return responseResult;
 	}
+
+	/***
+	 * @description: 打印回款统计
+	 */
+	@GetMapping("moneyBackStatisticsExcel")
+	public ResponseResult moneyBackStatisticsExcel(SelectContractInfoVo selectContractInfoVo, HttpServletResponse response) {
+		ResponseResult responseResult = null;
+		try {
+			wordService.moneyBackStatisticsExcel(selectContractInfoVo,response);
+			log.info("打印回款统计成功！");
+			responseResult = ResponseResult.success(ResponseResultEnum.SUCCESS.getCode(),null,"打印回款统计成功！");
+		}catch (Exception e) {
+			e.printStackTrace();
+			log.error("打印回款统计失败！");
+			responseResult = ResponseResult.failure("打印回款统计失败！");
+		}
+		return responseResult;
+	}
 }

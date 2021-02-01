@@ -18,11 +18,15 @@
         <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
     </a>
 </div>
+
 <div class="layui-fluid">
 
     <input class="layui-input" type="hidden" name="name" id="contractId">
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
+            <div class="layui-card-header">
+                开票信息
+            </div>
             <div class="layui-card">
                 <div class="layui-card-header">
                     <div class="layui-card-header">
@@ -42,6 +46,37 @@
                     </shiro:hasPermission>
                     <shiro:hasPermission name="contractcost:contract:apply:apply:del">
                         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                    </shiro:hasPermission>
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-fluid">
+
+    <input class="layui-input" type="hidden" name="name" id="contractMoney">
+    <input class="layui-input" type="hidden" name="name" id="moneySum">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card-header">
+                回款信息
+            </div>
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <div class="layui-card-header">
+                        <shiro:hasPermission name="contractcost:contract:back:add">
+                            <button class="layui-btn" id="addMoneyBackInfo"><i class="layui-icon"></i>添加</button>
+                        </shiro:hasPermission>
+                    </div>
+                </div>
+                <table class="layui-table layui-form" id="tableMoneyBackInfo" lay-filter="tableMoneyBackInfo"></table>
+                <script type="text/html" id="table-class">
+                    <shiro:hasPermission name="contractcost:contract:back:edit">
+                        <a class="layui-btn layui-btn-xs" lay-event="editor">编辑</a>
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="contractcost:contract:back:delete">
+                        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>                        </div>
                     </shiro:hasPermission>
                 </script>
             </div>
@@ -77,7 +112,7 @@
                     {field: 'name', align: 'center', title: '凭证号'}
                     , {
                     field: 'createtime', align: 'center', title: '开票日期', templet: function (d) {
-                        return layui.util.toDateString(d.createtime, "yyyy-MM")
+                        return layui.util.toDateString(d.createtime, "yyyy-MM-dd")
                     }
                 }
                     // ,{field: 'latetime',align: 'center', title: '发票开具最迟时间', templet: function (d) {
@@ -186,6 +221,7 @@
                             body.find("#type2").attr("checked", 'checked');
                         }
                         body.find("#money").val(data.money);
+                        body.find("#createtime").val(layui.util.toDateString(data.createtime, 'yyyy-MM-dd'));
                         body.find("#note").val(data.note);
                     }
                 })
@@ -227,6 +263,232 @@
             }
         });
 
+
+        var tableMoneyBackInfo = table.render({
+            elem: '#tableMoneyBackInfo',
+            id: 'tableMoneyBackInfo',
+            url: 'selectMoneyBackList', //请求数据的接口
+            page: true,
+            totalRow: true,
+            method: "post",
+            cols: [
+                [
+                    // {checkbox: true, width: 50},
+                    {
+                        field: 'certificateNumber',
+                        align: 'center',
+                        title: '凭证号'
+                    },
+                    {
+                        field: 'arrivalMoney',
+                        align: 'center',
+                        title: '回款时间',
+                        templet: function (d) {
+                            return layui.util.toDateString(d.arrivalMoney, "yyyy-MM-dd")
+                        }
+                    },
+                    {
+                        field: 'money',
+                        title: '金额',
+                        align: 'center',
+                        totalRow: true
+                    },
+                    {
+                        title: '是否开发票',
+                        field: 'hasInvoice',
+                        align: 'center',
+                        templet: function (d) {
+                            var state = "";
+                            if (d.hasInvoice == 1) {
+                                state = "是";
+                            }
+                            else {
+                                state = "否";
+                            }
+                            return state;
+
+                        }
+                    },
+                    {
+                        title: '发票类型',
+                        field: 'invoiceType',
+                        align: 'center',
+                        templet: function (d) {
+                            var type = "";
+                            if (d.invoiceType == 1) {
+                                type = "专票";
+                            }
+                            else if (d.invoiceType == 2){
+                                type = "普票";
+                            }
+                            return type;
+
+                        }
+                    },
+                    {
+                        field: 'creatorName',
+                        align: 'center',
+                        title: '操作人'
+                    },
+                    {
+                        field: 'createTime',
+                        align: 'center',
+                        title: '操作时间',
+                        templet: function (d) {
+                            return layui.util.toDateString(d.createTime, "yyyy-MM-dd")
+                        }
+                    },
+                    {
+                        field: 'invaiceRemark',
+                        title: '回款备注',
+                        align: 'center'
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        fixed: 'right',
+                        toolbar: '#table-class'
+                    }
+                ]
+            ],
+            text: {
+                none: "暂无数据"
+            },where : {
+                contractId : $("#contractId").val()
+            }, response: {
+                statusCode: 1 //重新规定成功的状态码为 200，table 组件默认为 0
+            }
+            , parseData: function (res) { //将原始数据解析成 table 组件所规定的数据
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.data.total, //解析数据长度
+                    "data": res.data.list //解析数据列表
+                }
+            }
+        });
+
+        $.ajax({
+            url: 'getSumAndCount',
+            data: {contractId:$("#contractId").val()},
+            type: 'POST',
+            dataType: 'json',
+            success: function(response) {
+                if(response.success) {
+                    $('#moneySum').val(response.data.moneySum);
+                } else {
+                    layer.msg('添加失败！', {icon: 5,time:1000});
+                }
+
+            },
+            error: function() {
+                layer.msg('系统错误！', {icon: 5,time:1000});
+            }
+        });
+
+//监听工具条
+        table.on('tool(tableMoneyBackInfo)', function (obj) {
+            var data = obj.data;
+            if (obj.event == 'editor') {
+                layer.open({
+                    type:2,
+                    title:"修改回款信息",
+                    area: ['60%', '100%'],
+                    btn: ['确定', '取消'],
+                    content: 'view?url=contract/money-back-edit',
+                    yes: function (index, layero) {
+                        var submitID = 'edit',
+                            submit = layero.find('iframe').contents().find('#' + submitID);
+                        submit.trigger('click');
+                    },
+                    success:function(layero,index){
+                        // console.log(data)
+                        var body = layer.getChildFrame('body');
+                        var iframeWin = window[layero.find('iframe')[0]['name']];
+                        // iframeWin.getData(data)
+                        body.find("#certificateNumber").val(data.certificateNumber);
+                        body.find("#money").val(data.money);
+                        body.find("#hasInvoice").val(data.hasInvoice);
+                        body.find("#id").val(data.id);
+                        body.find("#oneMoney").val(data.money);
+                        body.find("#contractMoney").val($('#contractMoney').val());
+                        body.find("#moneySum").val($('#moneySum').val());
+                        body.find("#contractId").val($('#contractId').val());
+                        body.find("#invoiceType").val(data.invoiceType);
+                        body.find("#invaiceRemark").val(data.invaiceRemark);
+                        body.find("#typeId1").val(data.typeId);
+                        body.find("#arrivalMoney").val(layui.util.toDateString(data.arrivalMoney, 'yyyy-MM-dd'));
+                    },
+                    end: function () {
+                        $.ajax({
+                            url: 'getSumAndCount',
+                            data: {contractId:$("#contractId").val()},
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function(response) {
+                                if(response.success) {
+                                    $('#moneySum').val(response.data.moneySum);
+                                } else {
+                                    layer.msg('添加失败！', {icon: 5,time:1000});
+                                }
+
+                            },
+                            error: function() {
+                                layer.msg('系统错误！', {icon: 5,time:1000});
+                            }
+                        });
+
+                    }
+                });
+            }else if(obj.event == 'del'){
+                layer.confirm('确认要删除吗?', function(index){
+                    $.ajax({
+                        url: "deleteMoneyBack/"+data.id,
+                        dataType:"json",
+                        type: "DELETE",
+                        success: function(data){
+                            if(data.success) {
+                                layer.msg(data.msg, {icon: 6,time: 1500},function () {
+                                    table.reload('tableMoneyBackInfo');
+                                    relodSubContractInfo();
+                                });
+                            }else {
+                                layer.msg(data.msg,{icon:5,time:1000});
+                            }
+                        },
+                        error : function(response){
+                            layer.msg('系统错误！', {
+                                icon: 5
+                            });
+                        }
+                    });
+                });
+            }
+        });
+
+        $('#addMoneyBackInfo').click(function() {
+            layer.open({
+                type:2,
+                title:"添加回款信息",
+                area: ['60%', '100%'],
+                btn: ['确定','取消'], //按钮
+                content: 'view?url=contract/money-back-add',
+                success:function(layero,index){
+                    // console.log(data)
+                    var body = layer.getChildFrame('body');
+                    var iframeWin = window[layero.find('iframe')[0]['name']];
+                    // iframeWin.getData(data)
+                    body.find("#contractId").val($('#contractId').val());
+                    body.find("#contractMoney").val($('#contractMoney').val());
+                    body.find("#moneySum").val($('#moneySum').val())
+                },
+                yes: function (index, layero) {
+                    var submitID = 'LAY-moneyBack-add-submit',
+                        submit = layero.find('iframe').contents().find('#' + submitID);
+                    submit.trigger('click');
+                }
+            });
+        });
     });
 </script>
 

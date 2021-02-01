@@ -34,20 +34,21 @@
                 <div class="layui-card-body ">
                     <form class="layui-form layui-col-space5">
                         <div class="layui-input-inline layui-show-xs-block">
-                            <input class="layui-input" placeholder="开始时间" name="start" id="start" readonly>
+                            <input class="layui-input" placeholder="开始时间(发票)" name="start" id="start" readonly>
                         </div>
                         <div class="layui-input-inline layui-show-xs-block">
-                            <input class="layui-input" placeholder="结束时间" name="end" id="end" readonly >
+                            <input class="layui-input" placeholder="结束时间(发票)" name="end" id="end" readonly >
+                        </div>
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <input class="layui-input" placeholder="开始时间(回款)" name="startTime" id="startTime" readonly>
+                        </div>
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <input class="layui-input" placeholder="结束时间(回款)" name="endTime" id="endTime" readonly >
                         </div>
                         <div class="layui-input-inline layui-show-xs-block nc">
                             <select name="itemManager" id="itemManager" lay-search>
                                 <option value="">请输入或选择业务员</option>
                             </select>
-                        </div>
-                        <div class="layui-inline">
-                            <div class="layui-input-inline">
-                                <input type="text" class="layui-input" id="signingTime"  name="signingTime" placeholder="请选择年份" autocomplete="off">
-                            </div>
                         </div>
                         <div class="layui-inline ">
                             <input type="text" name="applyMoney" id="applyMoney" placeholder="请输入开票金额"
@@ -62,8 +63,11 @@
                 <script type="text/html" id="toolbarDemo">
                     <div class="layui-card-header">
                         <shiro:hasPermission name="contractcost:contract:invoice:export">
-                            <button class="layui-btn layui-btn-normal" lay-event="printfContractWord">
+                            <button class="layui-btn layui-btn-normal" lay-event="printfContractWord1">
                                 <i class="layui-icon"></i>导出发票统计表
+                            </button>
+                            <button class="layui-btn layui-btn-normal" lay-event="printfContractWord2">
+                                <i class="layui-icon"></i>导出回款统计表
                             </button>
                         </shiro:hasPermission>
                     </div>
@@ -99,12 +103,6 @@
             }
         });
 
-        //年选择器
-        laydate.render({
-            elem: '#signingTime'
-            ,type: 'year'
-        });
-
         var contractTable = table.render({
             elem: '#contractTable'
             , id: 'contractTable'
@@ -121,8 +119,7 @@
             }
             , cols: [
                 [
-                    {field: 'signingTime', align: 'center', title: '年份', width: 80}
-                    , {field: 'applyTime', align: 'center', title: '时间', width: 100}
+                    {field: 'applyTime', align: 'center', title: '开票时间', width: 100}
                     , {field: 'company', align: 'center', title: '单位名称', width: 300}
                     , {field: 'itemName', align: 'center', title: '工程项目', width: 300}
                     , {field: 'managerName', align: 'center', title: '业务员', width: 80}
@@ -147,13 +144,25 @@
         //执行一个laydate实例
         laydate.render({
             elem: '#start' //指定元素
-            ,type: 'month'
+            ,type: 'date'
         });
 
         //执行一个laydate实例
         laydate.render({
             elem: '#end' //指定元素
-            ,type: 'month'
+            ,type: 'date'
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#startTime' //指定元素
+            ,type: 'date'
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#endTime' //指定元素
+            ,type: 'date'
         });
 
 
@@ -181,15 +190,35 @@
         table.on('toolbar(contractTable)', function (obj) {
             var checkStatus = table.checkStatus(obj.config.id);
             switch (obj.event) {
-                case 'printfContractWord':
+                case 'printfContractWord1':
                     // if ($('#start').val() == "" || $('#end').val() == "") {
                     //     layer.msg("请选择时间段", {icon: 5, time: 1000})
                     //     return false
                     // }
                     //导出合同报表
-                    var params = "start=" + $('#start').val() + "&end=" + $('#end').val()+ "&itemManager=" + $('#itemManager').val()+ "&signingTime=" + $('#signingTime').val()+ "&applyMoney=" + $('#applyMoney').val()
+                    var params = "start=" + $('#start').val() + "&end=" + $('#end').val()+ "&itemManager=" + $('#itemManager').val()+ "&applyMoney=" + $('#applyMoney').val()
                     var downloader = document.createElement("a");
                     downloader.setAttribute("href", "invoiceStatisticsExcel?" + params);
+                    // $("body").append(downloader);
+
+                    // downloader.setAttribute('target', '_blank');
+                    downloader.setAttribute('id', 'startTelMedicine');
+                    // 防止反复添加
+                    if (document.getElementById('startTelMedicine')) {
+                        document.body.removeChild(document.getElementById('startTelMedicine'));
+                    }
+                    document.body.appendChild(downloader);
+                    downloader.click();
+                    break;
+                case 'printfContractWord2':
+                    // if ($('#start').val() == "" || $('#end').val() == "") {
+                    //     layer.msg("请选择时间段", {icon: 5, time: 1000})
+                    //     return false
+                    // }
+                    //导出合同报表
+                    var params = "start=" + $('#startTime').val() + "&end=" + $('#endTime').val()+ "&itemManager=" + $('#itemManager').val()+ "&applyMoney=" + $('#applyMoney').val()
+                    var downloader = document.createElement("a");
+                    downloader.setAttribute("href", "moneyBackStatisticsExcel?" + params);
                     // $("body").append(downloader);
 
                     // downloader.setAttribute('target', '_blank');

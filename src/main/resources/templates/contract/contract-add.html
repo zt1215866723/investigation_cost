@@ -12,12 +12,33 @@
     <script src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
     <style>
-        form {
-            padding: 20px;
+        /*表单页面*/
+        .layui-form-item {
+            margin-bottom: 0;
+            margin-top: 20px;
         }
 
-        .layui-textarea {
-            min-height: 80px;
+        .layui-form-item .layui-inline {
+            margin-bottom: 25px;
+            margin-right: 0;
+        }
+
+        .form-group-bottom {
+            z-index: 9999;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #F2F2F2;
+            padding: 10px 20px;
+        }
+
+        .layui-card-body {
+            padding-right: 55px;
+        }
+
+        .text-center {
+            text-align: center
         }
     </style>
 </head>
@@ -28,214 +49,219 @@
         <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
     </a>
 </div>
-<div class="layui-fluid">
-    <div class="layui-row layui-col-space15">
-        <div class="layui-col-md7">
-            <div class="layui-card">
-                <div class="layui-card-header">
-                    合同详情
-                </div>
-                <form class="layui-form" action="" id="contractForm">
+<form class="layui-form" id="contractForm" lay-filter="contractForm">
+    <div class="layui-fluid" style="padding-bottom: 75px;">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item layui-row">
                     <!--上传附件路径-->
                     <input type="hidden" value="" name="fileUploads" id="fileUploads">
-                    <div class="layui-inline">
-                        <label class="layui-form-label">年份</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" id="signingTime" name="signingTime"
-                                   placeholder="yyyy" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">合同编号</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="contractNum" id="contractNum" lay-verify="title" autocomplete="off"
-                                   placeholder="请输入合同编号" class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
+
+                    <div class="layui-inline layui-col-md4">
                         <label class="layui-form-label">合同名称</label>
                         <div class="layui-input-block">
                             <input type="text" name="contractName" id="contractName" lay-verify="required"
                                    lay-reqtext="" placeholder="请输入合同名称" autocomplete="off" class="layui-input">
                         </div>
                     </div>
-                    <div class="layui-form-item">
+                    <div class="layui-inline layui-col-md4">
                         <label class="layui-form-label">项目名称</label>
                         <div class="layui-input-block">
                             <input type="text" name="itemName" id="itemName" lay-verify="required" lay-reqtext=""
                                    placeholder="请输入项目名称" autocomplete="off" class="layui-input">
                         </div>
                     </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">业务员</label>
-                        <div class="layui-input-inline layui-show-xs-block nc">
-                            <select name="itemManager" id="itemManager" lay-search>
-                                <option value="">请输入或选择业务员</option>
-                            </select>
+
+                    <div class="layui-inline layui-col-md4">
+                        <label class="layui-form-label">合同编号</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="contractNum" id="contractNum" lay-verify="title"
+                                   autocomplete="off"
+                                   placeholder="请输入合同编号" class="layui-input">
                         </div>
                     </div>
-                    <div class="layui-form-item">
+
+                    <div class="layui-inline layui-col-md4">
                         <label class="layui-form-label">客户单位</label>
                         <div class="layui-input-block">
                             <input type="text" name="company" id="company" lay-verify="required" lay-reqtext=""
                                    placeholder="请输入客户单位" autocomplete="off" class="layui-input">
                         </div>
                     </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">客户名称</label>
+
+                    <div class="layui-inline layui-col-md4">
+                        <label class="layui-form-label">合同金额</label>
                         <div class="layui-input-block">
-                            <input type="text" name="customer" id="customer" lay-verify="required" lay-reqtext=""
-                                   placeholder="请输入客户名称" autocomplete="off" class="layui-input">
+                            <input type="number" min="0" name="contractMoney" id="contractMoney" placeholder="￥"
+                                   autocomplete="off" class="layui-input">
                         </div>
                     </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">客户电话</label>
+
+                    <div class="layui-inline layui-col-md4">
+                        <label class="layui-form-label">年份</label>
                         <div class="layui-input-block">
-                            <input type="text" name="customerTel" id="customerTel" lay-verify="required" lay-reqtext=""
-                                   placeholder="请输入客户电话" autocomplete="off" class="layui-input">
+                            <input type="text" class="layui-input" id="signingTime" name="signingTime"
+                                   placeholder="yyyy" autocomplete="off">
                         </div>
                     </div>
-                    <div class="layui-form-item">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">合同金额</label>
-                            <div class="layui-input-inline">
-                                <input type="number" min="0" name="contractMoney" id="contractMoney" placeholder="￥"
-                                       autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="layui-form-item layui-form-text">
-                        <label class="layui-form-label">该项目特殊说明</label>
+
+                    <div class="layui-inline layui-col-md4">
+                        <label class="layui-form-label">业务员</label>
                         <div class="layui-input-block">
-                            <textarea placeholder="请输入内容" id="specialInstructions" name="specialInstructions"
-                                      class="layui-textarea"></textarea>
+                            <select name="itemManager" id="itemManager" lay-search>
+                                <option value="">请输入或选择业务员</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="layui-form-item layui-form-text">
-                        <label class="layui-form-label">该项目付款方式</label>
+
+                    <div class="layui-inline layui-col-md4">
+                        <label class="layui-form-label">工程类型</label>
                         <div class="layui-input-block">
-                            <textarea placeholder="请输入内容" name="premium" id="premium" class="layui-textarea"></textarea>
+                            <select name="projectId" id="projectId">
+                                <option value="">请选择工程类型</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="layui-form-item layui-form-text">
-                        <label class="layui-form-label">项目结论</label>
+                    <div class="layui-inline layui-col-md4">
+                        <label class="layui-form-label">回款类型</label>
                         <div class="layui-input-block">
-                            <textarea placeholder="请输入内容" name="conclusion" id="conclusion"
-                                      class="layui-textarea"></textarea>
+                            <select name="type" id="type">
+                                <option value="">请选择回款类型</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="layui-form-item">
+                    <div class="layui-inline layui-col-md4">
                         <label class="layui-form-label">项目状态</label>
                         <div class="layui-input-block">
                             <input type="radio" name="status" value="1" title="未完成" checked="">
                             <input type="radio" name="status" value="2" title="已完成">
                         </div>
                     </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">类别</label>
-                        <div class="layui-input-inline">
-                            <select name="type" id="type">
-                                <option value="">请选择类别</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">工程类型</label>
-                        <div class="layui-input-inline">
-                            <select name="projectId" id="projectId">
-                                <option value="">请选择工程类型</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
+                    <div class="layui-inline layui-col-md4">
                         <label class="layui-form-label">签订状态</label>
                         <div class="layui-input-block">
                             <input type="radio" name="signingStatus" value="0" title="是" checked="">
                             <input type="radio" name="signingStatus" value="1" title="否">
                         </div>
                     </div>
-                    <div class="layui-form-item">
+                    <div class="layui-inline layui-col-md4">
                         <label class="layui-form-label">是否存档</label>
                         <div class="layui-input-block">
                             <input type="radio" name="isArchive" value="0" title="是" checked="">
                             <input type="radio" name="isArchive" value="1" title="否">
                         </div>
                     </div>
-                </form>
+
+                    <div class="layui-inline layui-col-md4">
+                        <label class="layui-form-label">客户名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="customer" id="customer" lay-verify="required" lay-reqtext=""
+                                   placeholder="请输入客户名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md4">
+                        <label class="layui-form-label">客户电话</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="customerTel" id="customerTel" lay-verify="required" lay-reqtext=""
+                                   placeholder="请输入客户电话" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">特殊说明</label>
+                        <div class="layui-input-block">
+                            <textarea placeholder="请输入内容" id="specialInstructions" name="specialInstructions"
+                                      class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">付款方式</label>
+                        <div class="layui-input-block">
+                            <textarea placeholder="请输入内容" name="premium" id="premium" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">项目结论</label>
+                        <div class="layui-input-block">
+                            <textarea placeholder="请输入内容" name="conclusion" id="conclusion"
+                                      class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="layui-col-md5">
-            <div class="layui-card">
-                <div class="layui-card-header">
-                    开票信息
-                </div>
-                <form class="layui-form" action="" id="invoice">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">开户名称</label>
-                        <div class="layui-input-block">
-                            <textarea placeholder="请输入开户名称" id="accountName" name="accountName"
-                                      class="layui-textarea"></textarea>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">纳税人识别号</label>
-                        <div class="layui-input-block">
-                            <textarea placeholder="请输入纳税人识别号" id="tiNum" name="tiNum" class="layui-textarea"></textarea>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">地点、电话</label>
-                        <div class="layui-input-block">
-                            <textarea placeholder="请输入地点、电话" id="placeOfOpening" name="placeOfOpening"
-                                      class="layui-textarea"></textarea>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">开户行及账号</label>
-                        <div class="layui-input-block">
-                            <textarea placeholder="请输入开户行及账号" id="openingBank" name="openingBank"
-                                      class="layui-textarea"></textarea>
-                        </div>
-                    </div>
-                </form>
+
+        <div class="layui-card">
+            <div class="layui-card-header">
+                附件上传
             </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-card">
-                <div class="layui-card-header">
-                    附件上传
-                </div>
-                <div style="text-align: center;padding-bottom: 30px">
-                    <!-- <img src="img/file.png"> -->
-                    <div class="layui-upload">
+            <div style="text-align: center;padding-bottom: 30px">
+                <!-- <img src="img/file.png"> -->
+                <div class="layui-upload">
+                    <div class="layui-inline">
                         <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button>
-                        <div class="layui-upload-list">
-                            <table class="layui-table">
-                                <thead>
-                                <tr>
-                                    <th>文件名</th>
-                                    <th>大小</th>
-                                    <th>状态</th>
-                                    <th>操作</th>
-                                </tr>
-                                </thead>
-                                <tbody id="demoList"></tbody>
-                            </table>
-                        </div>
                         <button type="button" class="layui-btn" id="testListAction">开始上传</button>
                     </div>
+                    <div class="layui-upload-list">
+                        <table class="layui-table">
+                            <thead>
+                            <tr>
+                                <th>文件名</th>
+                                <th>大小</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody id="demoList"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item layui-row" id="invoice">
 
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1" id="submit">立即提交</button>
+                    <div class="layui-inline layui-col-md6">
+                        <label class="layui-form-label">开户名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" placeholder="请输入开户名称" id="accountName" name="accountName"
+                                   class="layui-input"/>
+                        </div>
+                    </div>
+
+                    <div class="layui-inline layui-col-md6">
+                        <label class="layui-form-label">纳税人识别号</label>
+                        <div class="layui-input-block">
+                            <input type="text" placeholder="请输入纳税人识别号" id="tiNum" name="tiNum"
+                                   class="layui-input"/>
+                        </div>
+                    </div>
+
+                    <div class="layui-inline layui-col-md6">
+                        <label class="layui-form-label">地点、电话</label>
+                        <div class="layui-input-block">
+                            <input type="text" placeholder="请输入地点、电话" id="placeOfOpening" name="placeOfOpening"
+                                   class="layui-input"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md6">
+                        <label class="layui-form-label">开户行及账号</label>
+                        <div class="layui-input-block">
+                            <input type="text" placeholder="请输入开户行及账号" id="openingBank" name="openingBank"
+                                   class="layui-input"/>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <div class="form-group-bottom text-center">
+        <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1" id="submit">立即提交</button>
+    </div>
+</form>
 </body>
 <script>
     layui.use(['upload', 'laydate', 'form'], function () {
@@ -366,26 +392,6 @@
             }
         });
 
-        //自定义验证规则
-        form.verify({
-            nikename: function (value) {
-                if (value.length < 5) {
-                    return '昵称至少得5个字符啊';
-                }
-            },
-            pass: [/(.+){6,12}$/, '密码必须6到12位'],
-            repass: function (value) {
-                if ($('#L_pass').val() != $('#L_repass').val()) {
-                    return '两次密码不一致';
-                }
-            },
-            num: function (value) {
-                if (parseInt(value) < 0) {
-                    return "非法数字";
-                }
-            }
-        });
-
         $("#submit").on('click', function () {
             var contractInfoId = null;
             var flag = true
@@ -400,6 +406,9 @@
                 flag = false
             } else if ($("#contractMoney").val() == "") {
                 layer.msg("合同金额必填项", {icon: 5, time: 1000})
+                flag = false
+            } else if ($("#type").val() == "") {
+                layer.msg("回款类型必填项", {icon: 5, time: 1000})
                 flag = false
             }
             if ($.trim($("#customerTel").val()) != "") {
@@ -424,7 +433,7 @@
                 $.ajax({
                     url: "addContractInfo"
                     , type: "post"
-                    , data: $("#contractForm").serialize()+'&' +$.param({'titleTrueName':titleTrueName})
+                    , data: $("#contractForm").serialize() + '&' + $.param({'titleTrueName': titleTrueName})
                     , async: "false"
                     , success: function (res) {
                         if (res.code == 1) {

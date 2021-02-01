@@ -1,11 +1,8 @@
 package com.xwkj.cost.service;
 
-import com.xwkj.cost.vo.ContractInfoAndInvoiceInfoVo;
 import com.xwkj.cost.vo.SelectContractInfoVo;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
 
 /**
  * @Description:TODO 生成word业务
@@ -24,7 +21,7 @@ public interface WordService {
 	 * @date:  2019-12-13 21:58
 	 * @author: wanglei
 	 */
-	void printfContractWord(String[] contractId, HttpServletResponse response);
+	void printfContractWord(String[] contractId,Integer type , HttpServletResponse response);
 
     void invoiceStatisticsExcel(SelectContractInfoVo selectContractInfoVo, HttpServletResponse response);
 
@@ -39,4 +36,8 @@ public interface WordService {
      */
 
 	void printfContractSummary(String[] contractId, HttpServletResponse response);
+
+    void moneyBackStatisticsExcel(SelectContractInfoVo selectContractInfoVo, HttpServletResponse response);
+
+    void printfYearSummary(String timeLimit, HttpServletResponse response);
 }

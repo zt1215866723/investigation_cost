@@ -51,4 +51,6 @@ public interface ContractInfoMapperManual {
 	 */
 
     List<ContractSummaryVo> selectContractSummary(String[] contractId);
+
+	List<ContractSummaryVo> selectYearSummary(SelectContractInfoVo selectContractInfoVo);
 }

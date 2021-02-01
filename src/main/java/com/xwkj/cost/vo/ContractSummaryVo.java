@@ -61,10 +61,41 @@ public class ContractSummaryVo {
 
 	private String managerName;
 
+	private BigDecimal arriveMoney;
+	private Long projectId;
+	private String signingTime;
+
 	//开票情况
 	private List<ApplyInvoiceVo> applyList;
 	//回款情况
 	private List<MoneyBackInfo> moneyBackList;
+
+	public BigDecimal getArriveMoney() {
+		return arriveMoney;
+	}
+
+	public ContractSummaryVo setArriveMoney(BigDecimal arriveMoney) {
+		this.arriveMoney = arriveMoney;
+		return this;
+	}
+
+	public Long getProjectId() {
+		return projectId;
+	}
+
+	public ContractSummaryVo setProjectId(Long projectId) {
+		this.projectId = projectId;
+		return this;
+	}
+
+	public String getSigningTime() {
+		return signingTime;
+	}
+
+	public ContractSummaryVo setSigningTime(String signingTime) {
+		this.signingTime = signingTime;
+		return this;
+	}
 
 	public String getManagerName() {
 		return managerName;

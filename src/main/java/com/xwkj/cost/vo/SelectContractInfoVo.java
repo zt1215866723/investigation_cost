@@ -61,4 +61,9 @@ public class SelectContractInfoVo {
 	private Integer signingStatus;
 	private Integer isArchive;
 	private BigDecimal applyMoney;
+
+	private String timeLimit;
+
+	private String endT;
+	private String startT;
 }

@@ -2,7 +2,6 @@ package com.xwkj.cost.vo;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.xwkj.cost.model.ContractInfo;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -125,6 +124,17 @@ public class ContractInfoVo {
 
 	//是否存档 0是 1否
 	private Integer isArchive;
+
+	private Long projectId;
+
+	public Long getProjectId() {
+		return projectId;
+	}
+
+	public ContractInfoVo setProjectId(Long projectId) {
+		this.projectId = projectId;
+		return this;
+	}
 
 	public Integer getSigningStatus() {
 		return signingStatus;

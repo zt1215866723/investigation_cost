@@ -63,6 +63,9 @@
         <result column="managerName" jdbcType="VARCHAR" property="managerName" />
         <result column="creatTime" jdbcType="VARCHAR" property="creatTime" />
         <result column="contractMoney" jdbcType="DECIMAL" property="contractMoney" />
+        <result column="arriveMoney" jdbcType="DECIMAL" property="arriveMoney" />
+        <result column="projectId" property="projectId" />
+        <result column="signingTime" jdbcType="VARCHAR" property="signingTime" />
         <result column="conclusion" jdbcType="VARCHAR" property="conclusion" />
         <collection property="applyList" ofType="com.xwkj.cost.vo.ApplyInvoiceVo">
             <id column="applyId" jdbcType="VARCHAR" property="id" />
@@ -135,7 +138,7 @@
             <if test="signingTime != null">
                 signing_time,
             </if>
-            <if test="type != null">
+            <if test="type != null and type != ''">
                 type,
             </if>
             <if test="signingStatus != null">
@@ -253,6 +256,12 @@
             <if test="contractInfo.itemManager != null and contractInfo.itemManager != ''">
                 AND t.item_manager = #{contractInfo.itemManager}
             </if>
+            <if test="contractInfo.start != null">
+                AND t.signing_time >= #{contractInfo.start}
+            </if>
+            <if test="contractInfo.end != null">
+                AND t.signing_time &lt;= #{contractInfo.end}
+            </if>
             <if test="contractInfo.signingTime != null and contractInfo.signingTime != ''">
                 AND t.signing_time = #{contractInfo.signingTime}
             </if>
@@ -318,5 +327,34 @@
         c.creat_time,
         a.createtime,
         m.create_time
+    </select>
+    <select id="selectYearSummary" resultMap="BaseResultMap2">
+        SELECT
+            IFNULL(sum( c.contract_money ),0) as contractMoney,
+            IFNULL(sum( c.money ),0) as arriveMoney,
+            c.project_id as projectId,
+            c.signing_time as signingTime
+        FROM
+            (
+            SELECT
+                a.contract_money,
+                a.signing_time,
+                a.project_id,
+                b.money
+            FROM
+                tbl_gb_contract_info a
+                LEFT JOIN tbl_gb_money_back_info b ON b.contract_id = a.id
+                AND b.`status` = 1
+            WHERE
+                a.STATUS != 0
+                <if test="start != null">
+                    AND a.signing_time >= #{startT}
+                </if>
+                <if test="end != null">
+                    AND a.signing_time &lt;= #{endT}
+                </if>
+            ) c
+        GROUP BY
+            c.signing_time,c.project_id;
     </select>
 </mapper>

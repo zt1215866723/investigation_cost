@@ -46,8 +46,9 @@
     </div>
 </div>
 <script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="look">预览</a>
     <shiro:hasPermission name="report:report:download">
-        <a class="layui-btn layui-btn-xs" lay-event="download">下载附件</a>
+        <a class="layui-btn layui-btn-xs" lay-event="download">下载</a>
     </shiro:hasPermission>
     <shiro:hasPermission name="report:report:edit">
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -86,7 +87,7 @@
                     , {field: 'actualWorkload', title: '实际完成工作量', totalRow: true}
                     , {field: 'measurementUnit', title: '计量单位'}
                     , {field: 'reportName', title: '备注'}
-                    , {title: '操作', toolbar: '#barDemo', align: 'center', fixed: 'right'}
+                    , {title: '操作', toolbar: '#barDemo', align: 'center', fixed: 'right',width:300}
                 ]
             ]
             , response: {
@@ -210,6 +211,22 @@
                         layer.msg("系统错误！", {icon: "5", time: 1000})
                     }
                 })
+            } else if (obj.event == 'look') {
+                layer.open({
+                    type: 2,
+                    content: 'view?url=report/report-file-list',
+                    area: ['60%', '60%'],
+                    title: '报告信息',
+                    yes: function (index, layero) {
+                        var submitID = 'LAY-lab-add-submit',
+                            submit = layero.find('iframe').contents().find('#' + submitID);
+                        submit.trigger('click');
+                    },
+                    success: function (layero, index) {
+                        var body = layer.getChildFrame('body', index);
+                        body.find("#reportId").val(data.id);
+                    }
+                });
             }
         });
     });

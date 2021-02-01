@@ -21,6 +21,19 @@
     <result  column="countNum" jdbcType="INTEGER" property="countNum"/>
     <result column="moneyBackTime" jdbcType="VARCHAR" property="moneyBackTime" />
   </resultMap>
+  <resultMap id="BaseResultMap3" type="com.xwkj.cost.vo.InvoiceStatisticsVo">
+    <id column="signingTime" jdbcType="VARCHAR" property="signingTime" />
+    <result column="applyTime" jdbcType="VARCHAR" property="applyTime" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="itemName" jdbcType="VARCHAR" property="itemName" />
+    <result column="itemManager" jdbcType="VARCHAR" property="itemManager" />
+    <result column="managerName" jdbcType="VARCHAR" property="managerName" />
+    <result column="applyMoney" jdbcType="DECIMAL" property="applyMoney" />
+    <result column="applyName" jdbcType="VARCHAR" property="applyName" />
+    <result column="backMoney" jdbcType="DECIMAL" property="backMoney" />
+    <result column="invaiceRemark" jdbcType="VARCHAR" property="invaiceRemark" />
+    <result column="certificateNumber" jdbcType="VARCHAR" property="certificateNumber" />
+  </resultMap>
   <sql id="Base_Column_List">
     id, money, contract_id, create_time, has_invoice, invoice_type, arrival_money,
     creator, invaice_remark, status, certificate_number
@@ -61,4 +74,39 @@
         tbl_gb_money_back_info
 	where contract_id = #{contractId} and status = 1
   </select>
+    <select id="getMoneyBackStatistics" resultMap="BaseResultMap3">
+      SELECT
+      c.signing_time AS signingTime,
+      DATE_FORMAT( b.arrival_money, "%Y-%m-%d" ) AS applyTime,
+      c.company AS company,
+      c.item_name AS itemName,
+      c.item_manager AS itemManager,
+      i.`name` AS managerName,
+      IFNULL( a.money, 0 ) AS applyMoney,
+      a.`name` AS applyName,
+      IFNULL( b.money, 0 ) AS backMoney,
+      b.invaice_remark AS invaiceRemark,
+      b.certificate_number AS certificateNumber
+      FROM
+      tbl_gb_money_back_info b
+      LEFT JOIN tbl_gb_apply_back_relaction m ON b.id = m.moneyBackId
+      LEFT JOIN tbl_gb_apply_invoice a ON m.applyId = a.id and a.status = 1
+      LEFT JOIN tbl_gb_contract_info c ON c.id = b.contract_id
+      LEFT JOIN tbl_gb_manager_info i ON i.id = c.item_manager
+      WHERE b.`status` = 1
+      <if test="start != null">
+        AND b.arrival_money <![CDATA[ >= ]]> #{start}
+      </if>
+      <if test="end != null">
+        AND b.arrival_money <![CDATA[ <= ]]> #{end}
+      </if>
+      <if test="itemManager != null and itemManager != ''">
+        AND c.item_manager = #{itemManager}
+      </if>
+      <if test="applyMoney != null and applyMoney != ''">
+        AND a.money = #{applyMoney}
+      </if>
+      ORDER BY
+      applyTime desc
+    </select>
 </mapper>

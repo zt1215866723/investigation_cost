@@ -100,7 +100,7 @@ public class ContractInfo {
     /**
      * 对应字段：type，  字段含义：类型
      */
-    private String type;
+    private Integer type;
 
     /**
      * 对应字段：status，  字段含义：状态  1：未完成  2：已完成  0：已删除
@@ -323,11 +323,11 @@ public class ContractInfo {
         return this;
     }
 
-    public String getType() {
+    public Integer getType() {
         return type;
     }
 
-    public ContractInfo setType(String type) {
+    public ContractInfo setType(Integer type) {
         this.type = type;
         return this;
     }

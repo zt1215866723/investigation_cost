@@ -12,29 +12,33 @@
     <script src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
     <style>
-        /*.layui-card-header{*/
-        /*    border:none;*/
-        /*}*/
-        .layui-card-header:first-child {
-            border-bottom: 1px solid #f3f3f3;
+        /*表单页面*/
+        .layui-form-item {
+            margin-bottom: 0;
+            margin-top: 20px;
         }
 
-        .layui-card-body p {
-            line-height: 32px;
-            font-size: 14px;
-            color: #333333;
-            padding: 5px 0;
+        .layui-form-item .layui-inline {
+            margin-bottom: 25px;
+            margin-right: 0;
         }
 
-        .layui-badge {
-            background-color: transparent;
-            width: 100px;
-            margin-right: 10px;
-            text-align: justify;
-            text-justify: distribute-all-lines; /*ie6-8*/
-            text-align-last: justify; /* ie9*/
-            -moz-text-align-last: justify; /*ff*/
-            -webkit-text-align-last: justify; /*chrome 20+*/
+        .form-group-bottom {
+            z-index: 9999;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #F2F2F2;
+            padding: 10px 20px;
+        }
+
+        .layui-card-body {
+            padding-right: 55px;
+        }
+
+        .text-center {
+            text-align: center
         }
     </style>
 </head>
@@ -45,104 +49,100 @@
         <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
     </a>
 </div>
-<div class="layui-fluid">
+<form class="layui-form">
     <!--合同主键-->
     <input type="hidden" id="contractId">
-    <shiro:hasPermission name="contractcost:contract:details:edit">
-        <div class="layui-card-header">
-            <button class="layui-btn layui-btn-normal" id="editContractInfo">
-                <i class="layui-icon"></i>修改合同发票信息
-            </button>
-        </div>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="contractcost:contract:details:type:edit">
-        <div class="layui-card-header">
-            <button class="layui-btn layui-btn-normal" id="editContractType">
-                <i class="layui-icon"></i>修改合同回款类型
-            </button>
-        </div>
-    </shiro:hasPermission>
-    <div class="layui-row layui-col-space15">
-        <div class="layui-col-md6">
+    <div class="layui-fluid" style="padding-bottom: 75px;">
+        <div class="layui-col-md8">
             <div class="layui-card">
-                <div class="layui-card-header">
-                    合同详情
-                </div>
-                <form class="layui-form">
-                    <input type="hidden" id="typeId1">
-                    <input type="hidden" id="projectId1">
-                    <input type="hidden" id="itemManager1">
-                    <div class="layui-card-header">
-                        <div class="layui-col-md6 layui-col-xs12">
-                            <span class="layui-badge layui-bg-blue">合同编号</span>
-                            <textarea style="height: 40px" type="text" name="contractNum" id="contractNum"
-                                      lay-verify="title" autocomplete="off" placeholder="请输入合同编号"
-                                      class="layui-input-inline"></textarea>
+                <div class="layui-card-body">
+                    <div class="layui-form-item layui-row">
+                        <input type="hidden" id="typeId1">
+                        <input type="hidden" id="projectId1">
+                        <input type="hidden" id="itemManager1">
+                        <div class="layui-inline layui-col-md6">
+                            <label class="layui-form-label">合同编号</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="contractNum" id="contractNum"
+                                       lay-verify="required" lay-reqtext="" autocomplete="off" placeholder="请输入合同编号"
+                                       class="layui-input"/>
+                            </div>
                         </div>
-                        <div class="layui-col-md6 layui-col-xs12">
-                            <span class="layui-badge layui-bg-blue">合同名称</span>
-                            <textarea style="height: 40px" type="text" name="contractName" id="contractName"
-                                      lay-verify="required" lay-reqtext="" placeholder="请输入合同名称" autocomplete="off"
-                                      class="layui-input-inline"></textarea>
+                        <div class="layui-inline layui-col-md6">
+                            <label class="layui-form-label">合同名称</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="contractName" id="contractName"
+                                       lay-verify="required" lay-reqtext="" placeholder="请输入合同名称" autocomplete="off"
+                                       class="layui-input"/>
+                            </div>
                         </div>
-                    </div>
-                    <div class="layui-card-header">
-                        <div class="layui-col-md6 layui-col-xs12">
-                            <span class="layui-badge layui-bg-blue">项目名称</span>
-                            <textarea style="height: 40px" type="text" name="itemName" id="itemName"
-                                      lay-verify="required"
-                                      lay-reqtext="" placeholder="请输入项目名称" autocomplete="off"
-                                      class="layui-input-inline"></textarea>
+                        <div class="layui-inline layui-col-md6">
+                            <label class="layui-form-label">项目名称</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="itemName" id="itemName"
+                                       lay-verify="required" lay-reqtext="" placeholder="请输入项目名称" autocomplete="off"
+                                       class="layui-input"/>
+                            </div>
                         </div>
-                        <div class="layui-col-md6 layui-col-xs12">
-                            <span class="layui-badge layui-bg-blue">甲方单位</span>
-                            <textarea style="height: 40px" type="text" name="company" id="company" lay-verify="title"
-                                      autocomplete="off" placeholder="请输入甲方单位" class="layui-input-inline"></textarea>
+                        <div class="layui-inline layui-col-md6">
+                            <label class="layui-form-label">甲方单位</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="company" id="company"
+                                       lay-verify="required" lay-reqtext="" placeholder="请输入甲方单位" autocomplete="off"
+                                       class="layui-input"/>
+                            </div>
                         </div>
-                    </div>
-                    <div class="layui-card-header">
-                        <div class="layui-col-md6 layui-col-xs12">
-                            <span class="layui-badge layui-bg-blue">业务员</span>
-                            <div class="layui-input-inline layui-show-xs-block nc" style="width: 155px;height: 25px">
+                        <div class="layui-inline layui-col-md6">
+                            <label class="layui-form-label">业务员</label>
+                            <div class="layui-input-block">
                                 <select name="itemManager" id="itemManager" lay-search>
                                     <option value="">请输入或选择业务员</option>
                                 </select>
                             </div>
                         </div>
-
-                        <div class="layui-col-md6 layui-col-xs12">
-                            <span class="layui-badge layui-bg-blue">合同金额</span>
-                            <input type="number" min="0" name="contractMoney" id="contractMoney" placeholder="￥"
-                                   autocomplete="off" class="layui-input-inline" style="width: 155px;height: 25px"
-                                   readonly>
+                        <div class="layui-inline layui-col-md6">
+                            <label class="layui-form-label">合同金额</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="contractMoney" id="contractMoney" readonly
+                                       lay-verify="required" lay-reqtext="" placeholder="请输入合同金额" autocomplete="off"
+                                       class="layui-input"/>
+                            </div>
                         </div>
-                    </div>
-                    <div class="layui-card-header">
-                        <div class="layui-col-md6 layui-col-xs12">
-                            <span class="layui-badge layui-bg-blue">甲方联系人</span>
-                            <input type="text" name="customer" id="customer" lay-verify="required" lay-reqtext=""
-                                   placeholder="请输入客户名称" autocomplete="off" class="layui-input-inline"
-                                   style="width: 155px;height: 25px">
+                        <div class="layui-inline layui-col-md6">
+                            <label class="layui-form-label">甲方联系人</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="customer" id="customer"
+                                       lay-verify="required" lay-reqtext="" placeholder="请输入甲方联系人" autocomplete="off"
+                                       class="layui-input"/>
+                            </div>
                         </div>
-                        <div class="layui-col-md6 layui-col-xs12">
-                            <span class="layui-badge layui-bg-blue">年份</span>
-                            <input type="text" name="signingTime" id="signingTime" lay-verify="required" lay-reqtext=""
-                                   placeholder="yyyy" autocomplete="off" class="layui-input-inline"
-                                   style="width: 155px;height: 25px">
+                        <div class="layui-inline layui-col-md6">
+                            <label class="layui-form-label">客户电话</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="customerTel" id="customerTel" lay-verify="required"
+                                       lay-reqtext=""
+                                       placeholder="请输入客户电话" autocomplete="off" class="layui-input">
+                            </div>
                         </div>
-                    </div>
-                    <div class="layui-card-header">
-                        <div class="layui-col-md6 layui-col-xs12">
-                            <span class="layui-badge layui-bg-blue">回款类型</span>
-                            <div class="layui-input-inline layui-show-xs-block nc" style="width: 155px;height: 25px">
+                        <div class="layui-inline layui-col-md6">
+                            <label class="layui-form-label">年份</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="signingTime" id="signingTime"
+                                       lay-verify="required" lay-reqtext="" placeholder="请输入年份" autocomplete="off"
+                                       class="layui-input"/>
+                            </div>
+                        </div>
+                        <div class="layui-inline layui-col-md6">
+                            <label class="layui-form-label">回款类型</label>
+                            <div class="layui-input-block">
                                 <select name="typeId" id="typeId" style="width: 155px;height: 25px">
                                     <option value="">请选择回款类型</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="layui-col-md6 layui-col-xs12">
-                            <span class="layui-badge layui-bg-blue">状态</span>
-                            <div class="layui-input-inline layui-show-xs-block nc" style="width: 155px;height: 25px">
+                        <div class="layui-inline layui-col-md6">
+                            <label class="layui-form-label">状态</label>
+                            <div class="layui-input-block">
                                 <select name="status" id="status" style="width: 155px;height: 25px">
                                     <option value="1">未完成</option>
                                     <option value="2">已完成</option>
@@ -150,61 +150,61 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="layui-card-header">
-                        <div class="layui-col-md6 layui-col-xs12">
-                            <span class="layui-badge layui-bg-blue">签订状态</span>
-                            <div class="layui-input-inline layui-show-xs-block nc" style="width: 155px;height: 25px">
+
+                        <div class="layui-inline layui-col-md6">
+                            <label class="layui-form-label">签订状态</label>
+                            <div class="layui-input-block">
                                 <select name="status" id="signingStatus" style="width: 155px;height: 25px">
                                     <option value="0">是</option>
                                     <option value="1">否</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="layui-col-md6 layui-col-xs12">
-                            <span class="layui-badge layui-bg-blue">是否存档</span>
-                            <div class="layui-input-inline layui-show-xs-block nc" style="width: 155px;height: 25px">
+                        <div class="layui-inline layui-col-md6">
+                            <label class="layui-form-label">是否存档</label>
+                            <div class="layui-input-block">
                                 <select name="status" id="isArchive" style="width: 155px;height: 25px">
                                     <option value="0">是</option>
                                     <option value="1">否</option>
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="layui-card-header">
-                        <div class="layui-col-md6 layui-col-xs12">
-                            <span class="layui-badge layui-bg-blue">工程类型</span>
-                            <div class="layui-input-inline layui-show-xs-block nc" style="width: 155px;height: 25px">
+                        <div class="layui-inline layui-col-md6">
+                            <label class="layui-form-label">工程类型</label>
+                            <div class="layui-input-block">
                                 <select name="projectId" id="projectId" style="width: 155px;height: 25px">
                                     <option value="">请选择工程类型</option>
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="layui-card-body">
-                        <p>
-                            <span class="layui-badge layui-bg-blue">特殊说明</span>
+
+                        <div class="layui-inline layui-col-md6">
+                            <label class="layui-form-label">特殊说明</label>
+                            <div class="layui-input-block">
                             <textarea placeholder="请输入内容" id="specialInstructions" name="specialInstructions"
                                       class="layui-textarea"></textarea>
-                        </p>
-                        <p>
-                            <span class="layui-badge layui-bg-blue">付款方式</span>
-                            <textarea placeholder="请输入内容" name="premium" id="premium" class="layui-textarea"></textarea>
-                        </p>
-                        <p>
-                            <span class="layui-badge layui-bg-blue">项目结论</span>
+                            </div>
+                        </div>
+                        <div class="layui-inline layui-col-md6">
+                            <label class="layui-form-label">付款方式</label>
+                            <div class="layui-input-block">
+                                <textarea placeholder="请输入内容" name="premium" id="premium"
+                                          class="layui-textarea"></textarea>
+                            </div>
+                        </div>
+                        <div class="layui-inline layui-col-md12">
+                            <label class="layui-form-label">项目结论</label>
+                            <div class="layui-input-block">
                             <textarea placeholder="请输入内容" name="conclusion" id="conclusion"
                                       class="layui-textarea"></textarea>
-                        </p>
+                            </div>
+                        </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
-        <div class="layui-col-md6">
+        <div class="layui-col-md4">
             <div class="layui-card">
-                <div class="layui-card-header">
-                    开票信息
-                </div>
                 <div class="layui-card-header" style="height: 150px;">
                     <div class="layui-col-md12">
                         <span class="layui-badge layui-bg-green">开户名称</span>
@@ -235,21 +235,11 @@
                 </div>
             </div>
         </div>
-        <!--<div class="layui-col-md2">-->
-        <!--<div class="layui-card">-->
-        <!--<div class="layui-card-header">-->
-        <!--附件下载-->
-        <!--</div>-->
-        <!--<div style="text-align: center;padding-bottom: 30px">-->
-        <!--<img src="img/file.png">-->
-        <!--<shiro:hasPermission name="contractcost:contract:details:download">-->
-        <!--<button type="button" class="layui-btn" id="download"><i-->
-        <!--class="layui-icon layui-icon-download-circle"></i>下载文件-->
-        <!--</button>-->
-        <!--</shiro:hasPermission>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
+    </div>
+    <div class="layui-card">
+        <div class="layui-form-item">
+            <table class="layui-table" id="titleTable" lay-filter="titleTable"></table>
+        </div>
         <div class="layui-form-item">
             <input type="hidden" value="" name="fileUploads" id="fileUploads">
             <div class="layui-card">
@@ -260,6 +250,7 @@
                     <!-- <img src="img/file.png"> -->
                     <div class="layui-upload">
                         <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button>
+                        <button type="button" class="layui-btn" id="testListAction">开始上传</button>
                         <div class="layui-upload-list">
                             <table class="layui-table">
                                 <thead>
@@ -273,23 +264,35 @@
                                 <tbody id="demoList"></tbody>
                             </table>
                         </div>
-                        <button type="button" class="layui-btn" id="testListAction">开始上传</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="layui-form-item">
-            <table class="layui-table" id="titleTable" lay-filter="titleTable" ></table>
-        </div>
     </div>
-</div>
+
+    <div class="form-group-bottom text-center">
+        <shiro:hasPermission name="contractcost:contract:details:edit">
+            <button class="layui-btn layui-btn-normal" id="editContractInfo">
+                <i class="layui-icon"></i>修改合同信息
+            </button>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="contractcost:contract:details:type:edit">
+            <button class="layui-btn layui-btn-normal" id="editContractType">
+                <i class="layui-icon"></i>修改合同回款类型
+            </button>
+        </shiro:hasPermission>
+    </div>
+</form>
 <script type="text/html" id="barDemo">
-    <a href="javascript:;"  title="下载" lay-event="download">
-        <i class="layui-icon">&#xe601;</i>
+    <a class="layui-btn layui-btn-normal" id="look" lay-event="look">
+        <i class="layui-icon">&#xe705;</i>预览
+    </a>
+    <a class="layui-btn layui-btn-normal" id="download" lay-event="download">
+        <i class="layui-icon">&#xe601;</i>下载
     </a>
     <shiro:hasPermission name="contractcost:contract:attachment:del">
-        <a title="删除"  href="javascript:;" lay-event="del">
-            <i class="layui-icon">&#xe640;</i>
+        <a class="layui-btn layui-btn-normal" id="del" lay-event="del">
+            <i class="layui-icon">&#xe640;</i>删除
         </a>
     </shiro:hasPermission>
 
@@ -304,7 +307,7 @@
                 upload = layui.upload;
             var laydate = layui.laydate;
 
-            $(document).ready(function(){
+            $(document).ready(function () {
                 form.render('select');
             })
 
@@ -363,8 +366,8 @@
                 , url: 'getEnclosureInfoByContractId' //数据接口
                 , method: 'post'
                 , limit: 10
-                , where:{
-                    id:$('#contractId').val()
+                , where: {
+                    id: $('#contractId').val()
                 }
                 , loading: true
                 , text: {
@@ -374,8 +377,9 @@
                 , cols: [
                     [ //表头
                         {field: 'fileName', title: '上传文件名称', align: 'center'}
-                        , {field: 'createTime', title: '上传时间', align: 'center', templet: function (d) {
-                            if (d.createTime != null){
+                        , {
+                        field: 'createTime', title: '上传时间', align: 'center', templet: function (d) {
+                            if (d.createTime != null) {
                                 return layui.util.toDateString(d.createTime, "yyyy-MM-dd HH:mm:ss")
                             }
                             return "";
@@ -402,44 +406,48 @@
             table.on('tool(titleTable)', function (obj) {
                 var data = obj.data;
                 if (obj.event == 'del') {
-                    layer.confirm('确认要删除吗?', function(index){
+                    layer.confirm('确认要删除吗?', function (index) {
                         $.ajax({
-                            url: "deleteEnclosureInfo/"+data.id,
-                            dataType:"json",
+                            url: "deleteEnclosureInfo/" + data.id,
+                            dataType: "json",
                             type: "DELETE",
-                            success: function(data){
-                                if(data.success) {
-                                    layer.msg(data.msg, {icon: 6,time: 1500},function () {
+                            success: function (data) {
+                                if (data.success) {
+                                    layer.msg(data.msg, {icon: 6, time: 1500}, function () {
                                         titleTable.reload({
                                             where: {
-                                                id:$('#contractId').val()
+                                                id: $('#contractId').val()
                                             }
                                             , page: {
                                                 curr: 1 //重新从第 1 页开始
                                             }
                                         });
                                     });
-                                }else {
-                                    layer.msg(data.msg,{icon:5,time:1000});
+                                } else {
+                                    layer.msg(data.msg, {icon: 5, time: 1000});
                                 }
                             },
-                            error : function(response){
+                            error: function (response) {
                                 layer.msg('系统错误！', {
                                     icon: 5
                                 });
                             }
                         });
                     });
-                }else if(obj.event == 'download'){
+                } else if (obj.event == 'download') {
                     //下载文件
                     var a = document.createElement('a');
                     var evt = document.createEvent('HTMLEvents')
-                    var url = 'fileDownload?filePath='+data.filePath;
+                    var url = 'fileDownload?filePath=' + data.filePath;
                     evt.initEvent('click', false, false)
-                    a.href=url;
+                    a.href = url;
                     a.dispatchEvent(evt);
                     a.download = data.fileName;
                     a.click()
+                } else if (obj.event == 'look') {
+                    var viewerUrl = "/pdf/web/viewer.html";
+                    var pdfUrl = "/fileView/toPdfFile?filePath=" + data.filePath;
+                    window.open(`${viewerUrl}?file=${encodeURIComponent(pdfUrl)}`);
                 }
             })
 
@@ -665,7 +673,7 @@
                         , isArchive: $("#isArchive").val()
                         , projectId: $("#projectId").val()
                         , fileUploads: $("#fileUploads").val()
-                        , titleTrueName :titleTrueName
+                        , titleTrueName: titleTrueName
                     }
                     , async: "false"
                     , success: function (res) {
@@ -722,6 +730,7 @@
                         layer.msg("系统错误！", {icon: "5", time: 1000})
                     }
                 })
+                return false
             })
 
             //修改合同回款类型
@@ -763,6 +772,7 @@
                         layer.msg("系统错误！", {icon: "5", time: 1000})
                     }
                 })
+                return false
             })
 
             //下载合同附件
