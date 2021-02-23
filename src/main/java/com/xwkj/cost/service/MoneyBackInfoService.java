@@ -4,7 +4,9 @@ import com.github.pagehelper.PageInfo;
 import com.xwkj.cost.model.ApplyInvoiceInfo;
 import com.xwkj.cost.model.MoneyBackInfo;
 import com.xwkj.cost.util.PageUtil;
+import com.xwkj.cost.vo.InvoiceStatisticsVo;
 import com.xwkj.cost.vo.MoneyBackVo;
+import com.xwkj.cost.vo.SelectContractInfoVo;
 
 public interface MoneyBackInfoService {
 
@@ -65,4 +67,6 @@ public interface MoneyBackInfoService {
     void deleteMoneyBackInfo(Long id);
 
     ApplyInvoiceInfo findApplyByMoneyBackId(Long moneyBackId);
+
+    PageInfo<InvoiceStatisticsVo> getMoneyBackStatistics(PageUtil pageUtil, SelectContractInfoVo selectContractInfoVo);
 }

@@ -15,7 +15,9 @@ import com.xwkj.cost.model.MoneyBackInfo;
 import com.xwkj.cost.service.MoneyBackInfoService;
 import com.xwkj.cost.util.PageUtil;
 import com.xwkj.cost.vo.ContractInfoAndInvoiceInfoVo;
+import com.xwkj.cost.vo.InvoiceStatisticsVo;
 import com.xwkj.cost.vo.MoneyBackVo;
+import com.xwkj.cost.vo.SelectContractInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -159,5 +161,14 @@ public class MoneyBackInfoServiceImpl implements MoneyBackInfoService {
             return applyInvoiceInfo;
         }
         return null;
+    }
+
+    @Override
+    public PageInfo<InvoiceStatisticsVo> getMoneyBackStatistics(PageUtil pageUtil, SelectContractInfoVo selectContractInfoVo) {
+        if (pageUtil.getLimit() != null && pageUtil.getPage() != null) {
+            PageHelper.startPage(pageUtil.getPage(), pageUtil.getLimit());
+        }
+        List<InvoiceStatisticsVo> list = moneyBackInfoMapperManual.getMoneyBackStatistics(selectContractInfoVo);
+        return new PageInfo<>(list);
     }
 }

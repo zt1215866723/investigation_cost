@@ -34,10 +34,10 @@
                 <div class="layui-card-body ">
                     <form class="layui-form layui-col-space5">
                         <div class="layui-input-inline layui-show-xs-block">
-                            <input class="layui-input" placeholder="开始时间" name="start" id="start" readonly>
+                            <input class="layui-input" placeholder="开始时间" name="startTime" id="startTime" readonly>
                         </div>
                         <div class="layui-input-inline layui-show-xs-block">
-                            <input class="layui-input" placeholder="结束时间" name="end" id="end" readonly >
+                            <input class="layui-input" placeholder="结束时间" name="endTime" id="endTime" readonly >
                         </div>
                         <div class="layui-input-inline layui-show-xs-block nc">
                             <select name="itemManager" id="itemManager" lay-search>
@@ -56,9 +56,9 @@
                 </div>
                 <script type="text/html" id="toolbarDemo">
                     <div class="layui-card-header">
-                        <shiro:hasPermission name="contractcost:contract:invoice:export">
-                            <button class="layui-btn layui-btn-normal" lay-event="printfContractWord1">
-                                <i class="layui-icon"></i>导出发票统计表
+                        <shiro:hasPermission name="contractcost:contract:moneyBack:export">
+                            <button class="layui-btn layui-btn-normal" lay-event="printfContractWord2">
+                                <i class="layui-icon"></i>导出回款统计表
                             </button>
                         </shiro:hasPermission>
                     </div>
@@ -98,7 +98,7 @@
             elem: '#contractTable'
             , id: 'contractTable'
             , toolbar: '#toolbarDemo'
-            , url: 'getInvoiceStatistics' //数据接口
+            , url: 'getMoneyBackStatistics' //数据接口
             ,defaultToolbar :[]
             , method: 'post'
             , title: '发票统计'
@@ -164,10 +164,9 @@
             // })
             contractTable.reload({
                 where: { //设定异步数据接口的额外参数，任意设
-                    start: $("#start").val(),
-                    end: $("#end").val(),
+                    start: $("#startTime").val(),
+                    end: $("#endTime").val(),
                     itemManager: $("#itemManager").val(),
-                    signingTime : $("#signingTime").val(),
                     applyMoney : $("#applyMoney").val()
                 }
                 , page: {

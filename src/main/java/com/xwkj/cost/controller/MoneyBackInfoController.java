@@ -7,7 +7,9 @@ import com.xwkj.cost.model.ApplyInvoiceInfo;
 import com.xwkj.cost.model.MoneyBackInfo;
 import com.xwkj.cost.service.MoneyBackInfoService;
 import com.xwkj.cost.util.PageUtil;
+import com.xwkj.cost.vo.InvoiceStatisticsVo;
 import com.xwkj.cost.vo.MoneyBackVo;
+import com.xwkj.cost.vo.SelectContractInfoVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -173,6 +175,29 @@ public class MoneyBackInfoController {
             e.printStackTrace();
             log.error("获得该条回款记录的详细信息失败");
             responseResult = ResponseResult.failure("获得该条回款记录的详细信息失败");
+        }
+        return responseResult;
+    }
+
+    /**
+     * @description: 查询回款统计
+     * @methodName: getContractInfo
+     * @param: [pageUtil, selectContractInfoVo]
+     * @return: com.xwkj.cost.common.ResponseResult
+     * @exception:
+     * @date:  2019-12-11 15:05
+     */
+    @PostMapping("getMoneyBackStatistics")
+    public ResponseResult getMoneyBackStatistics(PageUtil pageUtil, SelectContractInfoVo selectContractInfoVo) {
+        ResponseResult responseResult = null;
+        try {
+            PageInfo<InvoiceStatisticsVo> page = moneyBackInfoService.getMoneyBackStatistics(pageUtil,selectContractInfoVo);
+            log.info("查询合同信息成功！");
+            responseResult = ResponseResult.success(ResponseResultEnum.SUCCESS.getCode(),page,"查询合同信息成功！");
+        }catch (Exception e) {
+            e.printStackTrace();
+            log.error("查询合同信息失败！");
+            responseResult = ResponseResult.failure("查询合同信息失败！");
         }
         return responseResult;
     }
