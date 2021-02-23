@@ -27,6 +27,9 @@ public class InvoiceStatisticsVo {
 
     private String managerName;
 
+    //回款时间
+    private String arrivalTime;
+
     //凭证号
     private String applyName;
     //备注
@@ -130,6 +133,15 @@ public class InvoiceStatisticsVo {
 
     public InvoiceStatisticsVo setCompany(String company) {
         this.company = company;
+        return this;
+    }
+
+    public String getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public InvoiceStatisticsVo setArrivalTime(String arrivalTime) {
+        this.arrivalTime = arrivalTime;
         return this;
     }
 }

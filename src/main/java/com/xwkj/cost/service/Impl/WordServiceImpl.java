@@ -560,7 +560,8 @@ public class WordServiceImpl implements WordService {
         sheet.setColumnWidth(6, 2816);
         sheet.setColumnWidth(7, 4096);
         sheet.setColumnWidth(8, 2816);
-        sheet.setColumnWidth(9, 5120);
+        sheet.setColumnWidth(9, 2816);
+        sheet.setColumnWidth(10, 5120);
 
         rowNum++;
         row = sheet.createRow(rowNum);
@@ -596,9 +597,13 @@ public class WordServiceImpl implements WordService {
 
         cell = row.createCell(8);
         cell.setCellStyle(style);
-        cell.setCellValue("回款金额");
+        cell.setCellValue("回款时间");
 
         cell = row.createCell(9);
+        cell.setCellStyle(style);
+        cell.setCellValue("回款金额");
+
+        cell = row.createCell(10);
         cell.setCellStyle(style);
         cell.setCellValue("备注");
         for (int i = 0; i < list.size(); i++) {
@@ -640,9 +645,13 @@ public class WordServiceImpl implements WordService {
 
             cell = row.createCell(8);
             cell.setCellStyle(style);
-            cell.setCellValue(invoiceStatisticsVo.getBackMoney().stripTrailingZeros().toPlainString());
+            cell.setCellValue(invoiceStatisticsVo.getArrivalTime());
 
             cell = row.createCell(9);
+            cell.setCellStyle(style);
+            cell.setCellValue(invoiceStatisticsVo.getBackMoney().stripTrailingZeros().toPlainString());
+
+            cell = row.createCell(10);
             cell.setCellStyle(style);
             cell.setCellValue(invoiceStatisticsVo.getInvaiceRemark());
         }

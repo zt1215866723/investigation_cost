@@ -34,10 +34,16 @@
                 <div class="layui-card-body ">
                     <form class="layui-form layui-col-space5">
                         <div class="layui-input-inline layui-show-xs-block">
-                            <input class="layui-input" placeholder="开始时间" name="start" id="start" readonly>
+                            <input class="layui-input" placeholder="开始时间(发票)" name="start" id="start" readonly>
                         </div>
                         <div class="layui-input-inline layui-show-xs-block">
-                            <input class="layui-input" placeholder="结束时间" name="end" id="end" readonly >
+                            <input class="layui-input" placeholder="结束时间(发票)" name="end" id="end" readonly >
+                        </div>
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <input class="layui-input" placeholder="开始时间(回款)" name="startTime" id="startTime" readonly>
+                        </div>
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <input class="layui-input" placeholder="结束时间(回款)" name="endTime" id="endTime" readonly >
                         </div>
                         <div class="layui-input-inline layui-show-xs-block nc">
                             <select name="itemManager" id="itemManager" lay-search>
@@ -166,8 +172,9 @@
                 where: { //设定异步数据接口的额外参数，任意设
                     start: $("#start").val(),
                     end: $("#end").val(),
+                    startTime: $("#startTime").val(),
+                    endTime: $("#endTime").val(),
                     itemManager: $("#itemManager").val(),
-                    signingTime : $("#signingTime").val(),
                     applyMoney : $("#applyMoney").val()
                 }
                 , page: {
@@ -187,7 +194,7 @@
                     //     return false
                     // }
                     //导出合同报表
-                    var params = "start=" + $('#start').val() + "&end=" + $('#end').val()+ "&itemManager=" + $('#itemManager').val()+ "&applyMoney=" + $('#applyMoney').val()
+                    var params = "startTime=" + $('#startTime').val() + "&endTime=" + $('#endTime').val()+"start=" + $('#start').val() + "&end=" + $('#end').val()+ "&itemManager=" + $('#itemManager').val()+ "&applyMoney=" + $('#applyMoney').val()
                     var downloader = document.createElement("a");
                     downloader.setAttribute("href", "invoiceStatisticsExcel?" + params);
                     // $("body").append(downloader);

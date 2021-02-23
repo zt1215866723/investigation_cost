@@ -28,6 +28,7 @@
     <result column="applyMoney" jdbcType="DECIMAL" property="applyMoney" />
     <result column="applyName" jdbcType="VARCHAR" property="applyName" />
     <result column="backMoney" jdbcType="DECIMAL" property="backMoney" />
+    <result column="arrivalTime" jdbcType="VARCHAR" property="arrivalTime" />
     <result column="invaiceRemark" jdbcType="VARCHAR" property="invaiceRemark" />
     <result column="certificateNumber" jdbcType="VARCHAR" property="certificateNumber" />
   </resultMap>
@@ -93,6 +94,7 @@ from tbl_gb_apply_invoice where contract_id = #{contractId} and status = 1
     IFNULL( a.money, 0 ) AS applyMoney,
     a.`name` AS applyName,
     IFNULL( b.money, 0 ) AS backMoney,
+    b.arrival_money as arrivalTime,
     b.invaice_remark AS invaiceRemark,
     b.certificate_number AS certificateNumber
     FROM
@@ -103,6 +105,12 @@ from tbl_gb_apply_invoice where contract_id = #{contractId} and status = 1
     LEFT JOIN tbl_gb_manager_info i ON i.id = c.item_manager
     WHERE 1=1
     AND a.`status` = 1
+    <if test="startTime != null">
+      AND b.arrival_money <![CDATA[ >= ]]> #{startTime}
+    </if>
+    <if test="endTime != null">
+      AND b.arrival_money <![CDATA[ <= ]]> #{endTime}
+    </if>
     <if test="start != null">
       AND a.createtime <![CDATA[ >= ]]> #{start}
     </if>
