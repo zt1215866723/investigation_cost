@@ -256,11 +256,11 @@
             <if test="contractInfo.itemManager != null and contractInfo.itemManager != ''">
                 AND t.item_manager = #{contractInfo.itemManager}
             </if>
-            <if test="contractInfo.start != null">
-                AND t.signing_time >= #{contractInfo.start}
+            <if test="contractInfo.startT != null">
+                AND t.signing_time >= #{contractInfo.startT}
             </if>
-            <if test="contractInfo.end != null">
-                AND t.signing_time &lt;= #{contractInfo.end}
+            <if test="contractInfo.endT != null">
+                AND t.signing_time &lt;= #{contractInfo.endT}
             </if>
             <if test="contractInfo.signingTime != null and contractInfo.signingTime != ''">
                 AND t.signing_time = #{contractInfo.signingTime}
@@ -324,9 +324,7 @@
             #{contractId}
         </foreach>
         ORDER BY
-        c.creat_time,
-        a.createtime,
-        m.create_time
+        c.creat_time
     </select>
     <select id="selectYearSummary" resultMap="BaseResultMap2">
         SELECT

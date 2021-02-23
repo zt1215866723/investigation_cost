@@ -119,6 +119,8 @@ public class ContractInfoServiceImpl implements ContractInfoService {
                 calendar.add(Calendar.DATE, 1);
                 selectContractInfoVo.setEnd(calendar.getTime());
                 selectContractInfoVo.setStart(formatter.parse(split[0]));
+                selectContractInfoVo.setStartT(String.valueOf(split[0]));
+                selectContractInfoVo.setEndT(String.valueOf(split[1]));
             } catch (Exception e) {
                 e.printStackTrace();
             }

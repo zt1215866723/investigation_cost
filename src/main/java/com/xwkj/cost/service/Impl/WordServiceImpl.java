@@ -1741,7 +1741,7 @@ public class WordServiceImpl implements WordService {
 
         response.setContentType("application/octet-stream");
 
-        response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode("合同汇总表", "UTF-8"));
+        response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode("合同汇总表.xls", "UTF-8"));
 
         response.flushBuffer();
 
