@@ -112,7 +112,11 @@
                     {field: 'name', align: 'center', title: '凭证号'}
                     , {
                     field: 'createtime', align: 'center', title: '开票日期', templet: function (d) {
-                        return layui.util.toDateString(d.createtime, "yyyy-MM-dd")
+                        if (d.createtime!=null&&d.createtime!=""){
+                            return layui.util.toDateString(d.createtime, "yyyy-MM-dd")
+                        } else {
+                            return ""
+                        }
                     }
                 }
                     // ,{field: 'latetime',align: 'center', title: '发票开具最迟时间', templet: function (d) {
@@ -221,7 +225,9 @@
                             body.find("#type2").attr("checked", 'checked');
                         }
                         body.find("#money").val(data.money);
-                        body.find("#createtime").val(layui.util.toDateString(data.createtime, 'yyyy-MM-dd'));
+                        if (d.createtime!=null&&d.createtime!=""){
+                            body.find("#createtime").val(layui.util.toDateString(data.createtime, 'yyyy-MM-dd'));
+                        }
                         body.find("#note").val(data.note);
                     }
                 })

@@ -153,7 +153,9 @@ public class ContractInfoServiceImpl implements ContractInfoService {
             if (sumAndCount3 != null) {
                 String s = new String();
                 for (MoneyBackVo moneyBackVo : sumAndCount3) {
-                    s = s + moneyBackVo.getApplyTime() + "\r\n";
+                    if (moneyBackVo!=null){
+                        s = s + moneyBackVo.getApplyTime() + "\r\n";
+                    }
                 }
                 contractInfoAndInvoiceInfoVo.setOpenTime(s);
             }

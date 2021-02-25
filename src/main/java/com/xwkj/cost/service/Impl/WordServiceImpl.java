@@ -307,7 +307,9 @@ public class WordServiceImpl implements WordService {
                 if (sumAndCount3 != null) {
                     String s = new String();
                     for (MoneyBackVo moneyBackVo : sumAndCount3) {
-                        s = s + moneyBackVo.getApplyTime() + "\r\n";
+                        if (moneyBackVo!=null){
+                            s = s + moneyBackVo.getApplyTime() + "\r\n";
+                        }
                     }
                     cell.setCellValue(s);
                 }
@@ -316,7 +318,9 @@ public class WordServiceImpl implements WordService {
                 if (sumAndCount3 != null) {
                     String s1 = new String();
                     for (MoneyBackVo moneyBackVo : sumAndCount4) {
-                        s1 = s1 + moneyBackVo.getMoneyBackTime() + "\r\n";
+                        if (moneyBackVo!=null) {
+                            s1 = s1 + moneyBackVo.getMoneyBackTime() + "\r\n";
+                        }
                     }
                     cell.setCellValue(s1);
                 }

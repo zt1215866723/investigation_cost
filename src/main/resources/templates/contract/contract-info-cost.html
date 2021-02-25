@@ -116,13 +116,16 @@
             }
             , cols: [
                 [
-                    {field: 'applyTime', align: 'center', title: '开票时间', width: 100}
+                    {field: 'signingTime', align: 'center', title: '年份', width: 100}
+                    , {field: 'applyTime', align: 'center', title: '开票时间', width: 100}
                     , {field: 'company', align: 'center', title: '单位名称', width: 300}
                     , {field: 'itemName', align: 'center', title: '工程项目', width: 300}
                     , {field: 'managerName', align: 'center', title: '业务员', width: 80}
                     , {field: 'applyMoney', align: 'center', title: '开票金额'}
-                    , {field: 'applyName', align: 'center', title: '凭证号'}
-                    , {field: 'backMoney', align: 'center', title: '收款情况'}
+                    , {field: 'applyName', align: 'center', title: '开票凭证号'}
+                    , {field: 'arrivalTime', align: 'center', title: '回款时间'}
+                    , {field: 'certificateNumber', align: 'center', title: '回款凭证号'}
+                    , {field: 'backMoney', align: 'center', title: '回款金额'}
                     , {field: 'invaiceRemark', align: 'center', title: '备注'}
                 ]
             ]
@@ -194,7 +197,7 @@
                     //     return false
                     // }
                     //导出合同报表
-                    var params = "startTime=" + $('#startTime').val() + "&endTime=" + $('#endTime').val()+"start=" + $('#start').val() + "&end=" + $('#end').val()+ "&itemManager=" + $('#itemManager').val()+ "&applyMoney=" + $('#applyMoney').val()
+                    var params = "startTime=" + $('#startTime').val() + "&endTime=" + $('#endTime').val()+"&start=" + $('#start').val() + "&end=" + $('#end').val()+ "&itemManager=" + $('#itemManager').val()+ "&applyMoney=" + $('#applyMoney').val()
                     var downloader = document.createElement("a");
                     downloader.setAttribute("href", "invoiceStatisticsExcel?" + params);
                     // $("body").append(downloader);

@@ -54,9 +54,9 @@ public class SelectContractInfoVo {
 	private String signingTime;
 
 	private Long projectId;
-	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date startTime;
-	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endTime;
 	private Integer signingStatus;
 	private Integer isArchive;
