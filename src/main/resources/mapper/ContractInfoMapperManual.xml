@@ -241,6 +241,12 @@
             <if test="contractInfo.itemName != null and contractInfo.itemName != ''">
                 AND t.item_name LIKE CONCAT('%',#{contractInfo.itemName},'%')
             </if>
+            <if test="contractInfo.company != null and contractInfo.company != ''">
+                AND t.company LIKE CONCAT('%',#{contractInfo.company},'%')
+            </if>
+            <if test="contractInfo.contractMoney != null and contractInfo.contractMoney != ''">
+                AND t.contract_money = #{contractInfo.contractMoney}
+            </if>
             <if test="contractInfo.startTime != null">
                 AND t.creat_time <![CDATA[ >= ]]> #{contractInfo.startTime}
             </if>

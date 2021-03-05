@@ -26,6 +26,16 @@ public class SelectContractInfoVo {
 	private String itemName;
 
 	/**
+	 * 对应字段：contract_money，  字段含义：合同金额
+	 */
+	private BigDecimal contractMoney;
+
+	/**
+	 * 对应字段：company，  字段含义：客户单位
+	 */
+	private String company;
+
+	/**
 	 * 开始时间
 	 */
 	@DateTimeFormat(pattern = "yyyy-MM-dd")

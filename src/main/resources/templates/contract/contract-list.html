@@ -42,6 +42,14 @@
                                    class="layui-input">
                         </div>
                         <div class="layui-input-inline layui-show-xs-block">
+                            <input type="text" name="company" id="company" placeholder="请输入付款单位名称" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <input type="text" name="contractMoney" id="contractMoney" placeholder="请输入合同金额" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <div class="layui-input-inline layui-show-xs-block">
                             <input id="timeLimit" class="layui-input" autocomplete="off" type="text"
                                    placeholder="请选择年份"/>
                         </div>
@@ -394,6 +402,8 @@
                 where: { //设定异步数据接口的额外参数，任意设
                     contractNum: $("#contractNum").val(),
                     itemName: $("#itemName").val(),
+                    company: $("#company").val(),
+                    contractMoney: $("#contractMoney").val(),
                     startTime: $("#start").val(),
                     endTime: $("#end").val(),
                     status: $("#status").val(),

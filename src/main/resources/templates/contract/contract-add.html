@@ -407,9 +407,6 @@
             } else if ($("#contractMoney").val() == "") {
                 layer.msg("合同金额必填项", {icon: 5, time: 1000})
                 flag = false
-            } else if ($("#type").val() == "") {
-                layer.msg("回款类型必填项", {icon: 5, time: 1000})
-                flag = false
             }
             if ($.trim($("#customerTel").val()) != "") {
                 var customerTel = $.trim($("#customerTel").val());
