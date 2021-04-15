@@ -77,7 +77,12 @@
                         align: 'center',
                         title: '回款时间',
                         templet: function (d) {
-                            return layui.util.toDateString(d.arrivalMoney, "yyyy-MM")
+                            console.log(d)
+                            if(d.arrivalMoney!=""){
+                                return layui.util.toDateString(d.arrivalMoney, "yyyy-MM")
+                            }else {
+                                return ""
+                            }
                         }
                     },
                     {
