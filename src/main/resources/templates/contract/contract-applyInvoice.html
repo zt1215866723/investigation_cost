@@ -290,7 +290,12 @@
                         align: 'center',
                         title: '回款时间',
                         templet: function (d) {
-                            return layui.util.toDateString(d.arrivalMoney, "yyyy-MM-dd")
+                            console.log(d)
+                            if(d.arrivalMoney!=null){
+                                return layui.util.toDateString(d.arrivalMoney, "yyyy-MM-dd")
+                            }else {
+                                return ""
+                            }
                         }
                     },
                     {
@@ -423,7 +428,9 @@
                         body.find("#invoiceType").val(data.invoiceType);
                         body.find("#invaiceRemark").val(data.invaiceRemark);
                         body.find("#typeId1").val(data.typeId);
-                        body.find("#arrivalMoney").val(layui.util.toDateString(data.arrivalMoney, 'yyyy-MM-dd'));
+                        if(d.arrivalMoney!=null){
+                            body.find("#arrivalMoney").val(layui.util.toDateString(data.arrivalMoney, 'yyyy-MM-dd'));
+                        }
                     },
                     end: function () {
                         $.ajax({
